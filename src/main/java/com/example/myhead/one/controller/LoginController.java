@@ -12,4 +12,9 @@ public class LoginController {
     @Autowired
     private SysUserService sysUserService;
 
+    @RequestMapping(value = "/index")
+    public String index(){
+        return "index";
+    }
+
 }

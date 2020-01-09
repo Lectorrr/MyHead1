@@ -1,13 +1,10 @@
 package com.example.myhead.one.controller.api.bookInfo;
 
-import com.example.myhead.second.core.base.BaseController;
-import com.example.myhead.second.entity.bookInfo.BookInfo;
-import com.example.myhead.second.service.bookInfo.BookInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import com.example.myhead.one.base.BaseController;
+import com.example.myhead.one.entity.bookInfo.BookInfo;
+import com.example.myhead.one.service.bookInfo.BookInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 //@Controller
 //@RequestMapping(value = "/api/bookInfo")

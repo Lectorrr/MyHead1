@@ -1,10 +1,10 @@
 package com.example.myhead.one.dao.bookInfo;
 
-import com.example.myhead.second.core.base.BaseDao;
-import com.example.myhead.second.entity.bookInfo.BookInfo;
-import com.example.myhead.second.entity.bookInfo.Category;
 
-import java.awt.print.Book;
+import com.example.myhead.one.base.BaseDao;
+import com.example.myhead.one.entity.bookInfo.BookInfo;
+import com.example.myhead.one.entity.bookInfo.Category;
+
 import java.util.List;
 
 public interface BookInfoDao extends BaseDao<BookInfo, String> {

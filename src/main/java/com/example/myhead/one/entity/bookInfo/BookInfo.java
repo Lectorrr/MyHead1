@@ -1,6 +1,6 @@
 package com.example.myhead.one.entity.bookInfo;
 
-import com.example.myhead.second.core.base.BaseEntity;
+import com.example.myhead.one.base.BaseEntity;
 
 import javax.persistence.*;
 
