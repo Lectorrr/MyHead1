@@ -1,6 +1,7 @@
 package com.example.myhead.one.controller.bookInfo;
 
 import com.example.myhead.one.base.BaseController;
+import com.example.myhead.one.common.entity.ResultData;
 import com.example.myhead.one.entity.bookInfo.BookInfo;
 import com.example.myhead.one.service.bookInfo.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,17 @@ public class LibraryController extends BaseController<BookInfo, String> {
     @Autowired
     private BookInfoService bookInfoService;
 
-//    /**
-//     * showList界面的数据
-//     *
-//     * @param request http请求
-//     */
-//    @RequestMapping(value = "/listData", method = RequestMethod.GET)
-//    @ResponseBody
-//    public Object listData(HttpServletRequest request) {
-//        Map<String, String[]> parameterMap = request.getParameterMap();
-//        ResultData<BookInfo> bookInfoResultData = bookInfoService.findWithPage(parameterMap, BookInfo.class);
-//        return bookInfoResultData;
-//    }
+
+    /**
+     * showList界面的数据
+     *
+     * @param request http请求
+     */
+    @RequestMapping(value = "/listData", method = RequestMethod.GET)
+    @ResponseBody
+    public Object listData(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        ResultData<BookInfo> bookInfoResultData = bookInfoService.findWithPage(parameterMap, BookInfo.class);
+        return bookInfoResultData;
+    }
 }
