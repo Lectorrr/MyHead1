@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * 图书类型分类实体表
+ */
 @Entity
 @Table(name = "category")
 public class Category extends BaseEntity<String> {

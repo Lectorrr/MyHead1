@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<!--公共头-->
+<head th:replace="common/menu :: head">
+    <link href="/js/layui/css/layui.css" rel="stylesheet"/>
 </head>
-<body>
-000
+<!--公共菜单-->
+<body th:replace="common/menu :: body">
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    脱脱图书馆
+    <div style="padding: 15px;">内容主体区域</div>
+</div>
 </body>
 </html>

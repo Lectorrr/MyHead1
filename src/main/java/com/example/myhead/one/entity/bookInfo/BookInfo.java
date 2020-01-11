@@ -4,6 +4,9 @@ import com.example.myhead.one.base.BaseEntity;
 
 import javax.persistence.*;
 
+/**
+ * 图书信息
+ */
 @Entity
 @Table(name = "bookInfo")
 public class BookInfo extends BaseEntity<String> {
