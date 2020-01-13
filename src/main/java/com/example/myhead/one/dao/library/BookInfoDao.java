@@ -1,9 +1,9 @@
-package com.example.myhead.one.dao.bookInfo;
+package com.example.myhead.one.dao.library;
 
 
 import com.example.myhead.one.base.BaseDao;
-import com.example.myhead.one.entity.bookInfo.BookInfo;
-import com.example.myhead.one.entity.bookInfo.Category;
+import com.example.myhead.one.entity.library.BookInfo;
+import com.example.myhead.one.entity.library.Category;
 
 import java.util.List;
 

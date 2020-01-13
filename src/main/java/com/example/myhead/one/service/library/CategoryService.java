@@ -1,7 +1,7 @@
-package com.example.myhead.one.service.bookInfo;
+package com.example.myhead.one.service.library;
 
 import com.example.myhead.one.base.BaseService;
-import com.example.myhead.one.entity.bookInfo.Category;
+import com.example.myhead.one.entity.library.Category;
 import org.springframework.stereotype.Service;
 
 @Service

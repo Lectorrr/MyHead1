@@ -66,6 +66,11 @@ public class BaseService<E extends BaseEntity> {
         return (E) result;
     }
 
+    public List<E> findAll(){
+        List<E> entity = baseDao.findAll();
+        return entity;
+    }
+
 
     /**
      * @param parameterMap parameterMap

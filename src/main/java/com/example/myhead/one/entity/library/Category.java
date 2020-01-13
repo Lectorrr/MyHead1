@@ -1,4 +1,4 @@
-package com.example.myhead.one.entity.bookInfo;
+package com.example.myhead.one.entity.library;
 
 import com.example.myhead.one.base.BaseEntity;
 
