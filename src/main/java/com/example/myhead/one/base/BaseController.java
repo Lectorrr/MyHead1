@@ -88,7 +88,7 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
      */
     @RequestMapping("/showList")
     public String showList() {
-        return this.viewName(this.getPathPrefix()) + "list";
+        return this.viewName(this.getPathPrefix()) + "-list";
     }
 
     /**

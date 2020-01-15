@@ -16,17 +16,16 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/library")
+@RequestMapping(value = "/library/bookInfo")
 public class BookInfoController extends BaseController<BookInfo, String> {
 
     @Autowired
     private BookInfoService bookInfoService;
 
-    @Autowired
-    private String getPrefix() {
+    @Override
+    public String getPathPrefix() {
         return "bookInfo";
     }
-
 
     /**
      * showList界面的数据
