@@ -104,6 +104,11 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
     /**
      * add 增加方法
      */
+    @RequestMapping("/add")
+    public E addEntity(E entity) {
+        Object object = baseService.saveOrUpdate(entity);
+        return (E) object;
+    }
 
 
     /**

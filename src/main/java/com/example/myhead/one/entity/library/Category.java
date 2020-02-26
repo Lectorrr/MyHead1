@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 图书类型分类实体表
+ * 图书类型分类
  */
 @Entity
 @Table(name = "category")

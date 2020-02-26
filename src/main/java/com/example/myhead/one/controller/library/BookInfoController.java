@@ -29,6 +29,7 @@ public class BookInfoController extends BaseController<BookInfo, String> {
 
     /**
      * showList界面的数据
+     * 包含分页查询
      *
      * @param request http请求
      */
