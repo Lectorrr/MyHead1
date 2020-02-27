@@ -80,7 +80,7 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
      */
     @RequestMapping("/showCreatePage")
     public String showCreatePage() {
-        return this.getPathPrefix() + "create";
+        return this.viewName(this.getPathPrefix()) + "-create";
     }
 
     /**
@@ -98,7 +98,7 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
     public String updatePage(@PathVariable String id, Model model) {
         Object object = baseService.get(id);
         model.addAttribute("e", object);
-        return this.getPathPrefix() + "update";
+        return this.viewName(this.getPathPrefix()) + "-update";
     }
 
     /**
