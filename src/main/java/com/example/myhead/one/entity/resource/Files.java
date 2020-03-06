@@ -2,10 +2,7 @@ package com.example.myhead.one.entity.resource;
 
 import com.example.myhead.one.base.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "resource_files")
@@ -35,7 +32,11 @@ public class Files extends BaseEntity<String> {
     @Column(name = "status")
     private String status;
 
-    @JoinColumn(name = "file_type_id", referencedColumnName = "id")
+    /**
+     * 文件类型
+     */
+    @ManyToOne
+    @JoinColumn(name = "file_type_id", referencedColumnName = "UUID")
     private FilesType filesType;
 
     public String getFileRoad() {

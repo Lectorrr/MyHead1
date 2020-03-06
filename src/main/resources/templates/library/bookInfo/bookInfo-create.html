@@ -26,16 +26,11 @@
 
             <div class="layui-card-body">
                 <div>
-                    <button class="layui-btn" href="">提交</button>
+                    <button class="layui-btn" id="save">提交</button>
                 </div>
 
                 <div></div>
                 <table class="layui-table" id="table">
-                    <!--<colgroup>-->
-                    <!--<col width="150">-->
-                    <!--<col width="200">-->
-                    <!--<col>-->
-                    <!--</colgroup>-->
                     <thead>
                     <tr>
                         <th>书名</th>
@@ -50,7 +45,6 @@
                         <td><input id="publish"/></td>
                         <td><input id="description"/></td>
                         <td><input id="category"/></td>
-
                     </tr>
                     </thead>
 
@@ -67,49 +61,86 @@
 <th:block th:insert="~{common/menu :: script}"></th:block>
 <script type="text/javascript">
 
-    var table = $('#table').DataTable({
-        bStateSave: true,//状态保存
-        pading: true,
-        aoColumnDefs: [
-            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-            {"orderable": false, "aTargets": [0]}// 不参与排序的列
-        ],
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '/library/bookInfo/listData',
-            type: 'GET'
-        },
-        columns: [
+
+    // {
+    //     type: "POST",
+    //         url: "/login",
+    //     contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+    //     data: {username:$("#username").val(), password:$("#password").val()}}
+
+    // $.ajax({
+    //     type: 'POST',
+    //     url: '${contextPath}/basicInfo/assetUserInfo/synAssetUserInfo',
+    //     data: formData,
+    //     contentType: false,
+    //     processData: false,
+    //     dataType: 'json',
+    //     mime: 'multipart/form-data',
+    //     success: function (data) {
+    //         $('#impUser-modal').find('button').removeAttrs('disabled');
+    //         message(data);
+    //         $('#impUser-modal').modal('hide');
+    //         $('#assetUserInfoTable').trigger("reloadGrid")
+    //     }
+    // });
+
+    // function saveOrUpdate() {
+    //     var formData = new FormData();
+    //     formData.append("fileName", $('#fileName').val());
+    //     //附件
+    //     formData.append("file", $('#file').prop('files')[0]);
+    // }
+
+
+    $('#save').bind('click', function () {
+
+        var category = {};
+        category.type = $('#category').val();
+
+        var formData = {};
+        formData.bookName = $('#bookName').val();
+        formData.author = $('#author').val();
+        formData.publish = $('#publish').val();
+        formData.description = $('#description').val();
+        formData.category = category;
+
+        console.log("data:", formData);
+
+        $.ajax(
             {
-                "data": "id",
-                "render": function (data, type, row) {
-                    return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
+                type: 'POST',
+                url: '/library/bookInfo/saveOrUpdate',
+                contentType: 'application/json; charset=UTF-8',
+                dataType: 'json',
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (e) {
+                    console.log(e);
                 }
-            },
-            {"data": "bookName"},
-            {"data": "author"},
-            {"data": "publish"},
-            {"data": "description"},
-            // {
-            //     "data": "isBook",
-            //     "render": function (data, type, row) {
-            //         if (row.book === false) {
-            //             return '<span class="label label-success radius">未预定</span>'
-            //         }else {
-            //             return '<span class="label label-danger radius">已预定</span>'
-            //         }
-            //     }
-            // },
-            {"data": "category.type"}
-            // {
-            //     "data": null,
-            //     "render": function (data, type, row) {
-            //         return '<a style="text-decoration:none" class="ml-5" onClick="editOp(\'编辑\',\'/admin/parkingLotSpace/updatePage\',\'' + row.id + '\')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> ' +
-            //             '<a style="text-decoration:none" class="ml-5" onClick="delOp(\'/admin/parkingLotSpace/deletes\',\'' + row.id + '\')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>'
-            //     }
-            // }
-        ]
+            }
+        );
     });
+
+    // $(function () {
+    //     //按钮事件注册
+    //     $('#create-modal').on('click', 'button[data-name=save]', function () {
+    //         if (validateForm.form()) {
+    //             $('#wareRoomInfo-form').find('button').attr('disabled');
+    //             saveOrUpdate();
+    //         }
+    //     });
+    //     function saveOrUpdate() {
+    //         var formData = {};
+    //         formData.bookName = $('#goodsVendor_input').val();
+    //         formData.author = $('#goodsType_input').val();
+    //         formData.publish = $('#goodsName_input').val();
+    //         formData.description = $('#goodsModel_input').val();
+    //         formData.category = $('#goodsFormat_input').val();
+    //     }
+    //
+    //
+    // });
 </script>
 </html>
