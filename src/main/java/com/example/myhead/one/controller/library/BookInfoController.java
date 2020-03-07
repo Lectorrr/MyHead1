@@ -9,6 +9,7 @@ import com.example.myhead.one.service.library.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,7 +65,7 @@ public class BookInfoController extends BaseController<BookInfo, String> {
 
     @RequestMapping(value = "/saveOrUpdate")
     @ResponseBody
-    public Object saveOrUpdate(BookInfo bookInfo, Model model) {
+    public Object saveOrUpdate(@RequestBody BookInfo bookInfo, Model model) {
         String res = "保存成功";
 //        Category category = bookInfo.getCategory();
         if (bookInfo.getCategory() != null) {
