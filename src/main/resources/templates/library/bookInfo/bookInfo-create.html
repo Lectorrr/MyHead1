@@ -61,37 +61,6 @@
 <th:block th:insert="~{common/menu :: script}"></th:block>
 <script type="text/javascript">
 
-
-    // {
-    //     type: "POST",
-    //         url: "/login",
-    //     contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-    //     data: {username:$("#username").val(), password:$("#password").val()}}
-
-    // $.ajax({
-    //     type: 'POST',
-    //     url: '${contextPath}/basicInfo/assetUserInfo/synAssetUserInfo',
-    //     data: formData,
-    //     contentType: false,
-    //     processData: false,
-    //     dataType: 'json',
-    //     mime: 'multipart/form-data',
-    //     success: function (data) {
-    //         $('#impUser-modal').find('button').removeAttrs('disabled');
-    //         message(data);
-    //         $('#impUser-modal').modal('hide');
-    //         $('#assetUserInfoTable').trigger("reloadGrid")
-    //     }
-    // });
-
-    // function saveOrUpdate() {
-    //     var formData = new FormData();
-    //     formData.append("fileName", $('#fileName').val());
-    //     //附件
-    //     formData.append("file", $('#file').prop('files')[0]);
-    // }
-
-
     $('#save').bind('click', function () {
 
         var category = {};
@@ -110,7 +79,7 @@
             {
                 type: 'POST',
                 url: '/library/bookInfo/saveOrUpdate',
-                contentType: 'application/json; charset=UTF-8',
+                contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify(formData),
                 success: function (data) {
@@ -121,26 +90,11 @@
                 }
             }
         );
-    });
 
-    // $(function () {
-    //     //按钮事件注册
-    //     $('#create-modal').on('click', 'button[data-name=save]', function () {
-    //         if (validateForm.form()) {
-    //             $('#wareRoomInfo-form').find('button').attr('disabled');
-    //             saveOrUpdate();
-    //         }
-    //     });
-    //     function saveOrUpdate() {
-    //         var formData = {};
-    //         formData.bookName = $('#goodsVendor_input').val();
-    //         formData.author = $('#goodsType_input').val();
-    //         formData.publish = $('#goodsName_input').val();
-    //         formData.description = $('#goodsModel_input').val();
-    //         formData.category = $('#goodsFormat_input').val();
-    //     }
-    //
-    //
-    // });
+        // $.post('/library/bookInfo/saveOrUpdate', JSON.stringify(formData), function (data) {
+        //     console.log(data);
+        // }, 'json');
+
+    });
 </script>
 </html>
