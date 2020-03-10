@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,11 +29,19 @@ public class FilesController extends BaseController<Files, String> {
     }
 
     /**
-     * 显示 文件上传 界面
+     * 显示 单文件上传 界面
      */
     @RequestMapping("/showUploadPage")
     public String showUploadPage() {
         return this.viewName(this.getPathPrefix()) + "-upload";
+    }
+
+    /**
+     * 显示 单文件上传 界面
+     */
+    @RequestMapping("/showUploadBatchPage")
+    public String showUploadBatchPage() {
+        return this.viewName(this.getPathPrefix()) + "-uploadBatch";
     }
 
     /**
@@ -47,6 +57,28 @@ public class FilesController extends BaseController<Files, String> {
         ResultData<Files> filesResultData = filesService.findWithPage(parameterMap, Files.class);
         return filesResultData;
     }
+
+    /**
+     * 单文件上传
+     * @param file
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public String upload(@RequestParam("file") MultipartFile file) {
+
+        return "";
+    }
+
+    /**
+     * 多文件上传
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/upload/batch", method = RequestMethod.POST)
+    public @ResponseBody String batchUpload(HttpServletRequest request) {
+        return "";
+    }
+
 
     /**
      * 查找所有书籍信息
