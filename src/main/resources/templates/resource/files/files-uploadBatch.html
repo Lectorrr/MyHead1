@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<!--公共头-->
+<head th:replace="common/menu :: head">
+</head>
+<!--公共菜单-->
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+
+    <div th:replace="common/menu :: header"></div>
+    <div th:replace="common/menu :: nav"></div>
+
+    <!-- 内容主体区域 -->
+    <div class="layui-body" style="padding: 15px;">
+
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <span class="layui-breadcrumb">
+                    <a href="">首页</a>
+                    <a href="">资源区</a>
+                    <a href="">查看列表</a>
+                    <a><cite>上传文件</cite></a>
+                </span>
+            </div>
+
+            <div class="layui-card-body">
+                <div>
+                    <button class="layui-btn" href="">提交</button>
+                </div>
+
+                <div></div>
+                <table class="layui-table" id="table">
+                    <thead>
+                    <tr>
+                        <th>书名</th>
+                        <th>作者</th>
+                        <th>出版社</th>
+                        <th>简介</th>
+                        <th>类别</th>
+                    </tr>
+                    <tr>
+                        <td><input id="bookName"/></td>
+                        <td><input id="author"/></td>
+                        <td><input id="publish"/></td>
+                        <td><input id="description"/></td>
+                        <td><input id="category"/></td>
+
+                    </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div th:replace="common/menu :: footer"></div>
+</div>
+</body>
+<th:block th:insert="~{common/menu :: script}"></th:block>
+<script type="text/javascript">
+
+    var table = $('#table').DataTable({
+        bStateSave: true,//状态保存
+        pading: true,
+        aoColumnDefs: [
+            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+            {"orderable": false, "aTargets": [0]}// 不参与排序的列
+        ],
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/library/bookInfo/listData',
+            type: 'GET'
+        },
+        columns: [
+            {
+                "data": "id",
+                "render": function (data, type, row) {
+                    return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
+                }
+            },
+            {"data": "bookName"},
+            {"data": "author"},
+            {"data": "publish"},
+            {"data": "description"},
+            // {
+            //     "data": "isBook",
+            //     "render": function (data, type, row) {
+            //         if (row.book === false) {
+            //             return '<span class="label label-success radius">未预定</span>'
+            //         }else {
+            //             return '<span class="label label-danger radius">已预定</span>'
+            //         }
+            //     }
+            // },
+            {"data": "category.type"}
+            // {
+            //     "data": null,
+            //     "render": function (data, type, row) {
+            //         return '<a style="text-decoration:none" class="ml-5" onClick="editOp(\'编辑\',\'/admin/parkingLotSpace/updatePage\',\'' + row.id + '\')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> ' +
+            //             '<a style="text-decoration:none" class="ml-5" onClick="delOp(\'/admin/parkingLotSpace/deletes\',\'' + row.id + '\')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>'
+            //     }
+            // }
+        ]
+    });
+</script>
+</html>
