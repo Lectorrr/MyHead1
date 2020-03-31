@@ -2,10 +2,14 @@ package com.example.myhead.one.controller.resource;
 
 import com.example.myhead.one.base.BaseController;
 import com.example.myhead.one.common.entity.ResultData;
+import com.example.myhead.one.common.util.FileUtils;
 import com.example.myhead.one.entity.resource.Files;
+import com.example.myhead.one.entity.resource.FilesType;
 import com.example.myhead.one.service.resource.FilesService;
+import com.example.myhead.one.service.resource.FilesTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,26 +26,12 @@ public class FilesController extends BaseController<Files, String> {
 
     @Autowired
     private FilesService filesService;
+    @Autowired
+    private FilesTypeService filesTypeService;
 
     @Override
     public String getPathPrefix() {
         return "files";
-    }
-
-    /**
-     * 显示 单文件上传 界面
-     */
-    @RequestMapping("/showUploadPage")
-    public String showUploadPage() {
-        return this.viewName(this.getPathPrefix()) + "-upload";
-    }
-
-    /**
-     * 显示 单文件上传 界面
-     */
-    @RequestMapping("/showUploadBatchPage")
-    public String showUploadBatchPage() {
-        return this.viewName(this.getPathPrefix()) + "-uploadBatch";
     }
 
     /**
@@ -65,20 +55,24 @@ public class FilesController extends BaseController<Files, String> {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file) {
+        if(!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String filePath = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/";
+            if (FileUtils.saveFile(file, filePath, fileName)){
+                Files files = new Files();
+                files.setFileName(fileName + file.getOriginalFilename());
+                files.setFileRoad(filePath);
+
+                FilesType filesType = new FilesType();
+                filesType.setType(file.getContentType());
+                filesTypeService.saveOrUpdate(filesType);
+                files.setFilesType(filesType);
+                filesService.saveOrUpdate(files);
+            }
+        }
 
         return "";
     }
-
-    /**
-     * 多文件上传
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/upload/batch", method = RequestMethod.POST)
-    public @ResponseBody String batchUpload(HttpServletRequest request) {
-        return "";
-    }
-
 
     /**
      * 查找所有书籍信息

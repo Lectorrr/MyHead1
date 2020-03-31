@@ -26,12 +26,15 @@
 
             <div class="layui-card-body">
                 <div>
-                    <a href="/resource/files/showUploadPage">
-                        <div class="layui-btn">上传</div>
-                    </a>
-                    <a href="/resource/files/showUploadBatchPage">
-                        <div class="layui-btn">批量上传</div>
-                    </a>
+                    <!--<a href="/resource/files/showUploadPage">-->
+                        <!--<div class="layui-btn">上传</div>-->
+                    <!--</a>-->
+                    <button type="button" class="layui-btn" id="test1">
+                        <i class="layui-icon">&#xe67c;</i>上传文件
+                    </button>
+                    <!--<a href="/resource/files/showUploadBatchPage">-->
+                        <!--<div class="layui-btn">批量上传</div>-->
+                    <!--</a>-->
                     <a href="#">
                         <div class="layui-btn">下载</div>
                     </a>
@@ -60,31 +63,50 @@
 <th:block th:insert="~{common/menu :: script}"></th:block>
 <script type="text/javascript">
 
-    var table = $('#table').DataTable({
-        bStateSave: true,//状态保存
-        pading: true,
-        aoColumnDefs: [
-            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-            {"orderable": false, "aTargets": [0]}// 不参与排序的列
-        ],
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '/resource/files/listData',
-            type: 'GET'
-        },
-        columns: [
-            {
-                "data": "id",
-                "render": function (data, type, row) {
-                    return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
-                }
-            },
-            {"data": "fileName"},
-            {"data": "status"},
-            {"data": "filesType.type"}
+    // $('#table').DataTable({
+    //     bStateSave: true,//状态保存
+    //     pading: true,
+    //     aoColumnDefs: [
+    //         //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+    //         {"orderable": false, "aTargets": [0]}// 不参与排序的列
+    //     ],
+    //     processing: true,
+    //     serverSide: true,
+    //     ajax: {
+    //         url: '/resource/files/listData',
+    //         type: 'GET'
+    //     },
+    //     columns: [
+    //         {
+    //             "data": "id",
+    //             "render": function (data, type, row) {
+    //                 return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
+    //             }
+    //         },
+    //         {"data": "fileName"},
+    //         {"data": "status"},
+    //         {"data": "filesType.type"}
+    //
+    //     ]
+    // });
 
-        ]
+
+    layui.use('upload', function(){
+        var upload = layui.upload;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#test1', //绑定元素
+            url: '/resource/files/upload', //上传接口
+            accept: 'file',
+            multiple: true,
+            done: function(res){
+                //上传完毕回调
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
     });
 </script>
 </html>
