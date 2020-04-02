@@ -57,6 +57,8 @@ public class FilesController extends BaseController<Files, String> {
     public String upload(@RequestParam("file") MultipartFile file) {
         if(!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
+
+            //这个文件路径有问题，保存在了打的 target 包里面。
             String filePath = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/";
             if (FileUtils.saveFile(file, filePath, fileName)){
                 Files files = new Files();

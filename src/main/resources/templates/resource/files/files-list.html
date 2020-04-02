@@ -26,18 +26,16 @@
 
             <div class="layui-card-body">
                 <div>
-                    <!--<a href="/resource/files/showUploadPage">-->
-                        <!--<div class="layui-btn">上传</div>-->
-                    <!--</a>-->
+
                     <button type="button" class="layui-btn" id="test1">
                         <i class="layui-icon">&#xe67c;</i>上传文件
                     </button>
-                    <!--<a href="/resource/files/showUploadBatchPage">-->
-                        <!--<div class="layui-btn">批量上传</div>-->
-                    <!--</a>-->
-                    <a href="#">
-                        <div class="layui-btn">下载</div>
-                    </a>
+
+                   <button>
+                        <div class="layui-btn" type="button" id="download">
+                            <i class="layui-icon download-circle">&#xe67c;</i>下载</div>
+                   </button>
+
                     <button class="layui-btn layui-btn-danger">删除</button>
                 </div>
 
@@ -45,6 +43,7 @@
                 <table class="layui-table" id="table">
                     <thead>
                     <tr>
+                        <th></th>
                         <th>文件名</th>
                         <th>文件状态</th>
                         <th>文件格式</th>
@@ -63,32 +62,32 @@
 <th:block th:insert="~{common/menu :: script}"></th:block>
 <script type="text/javascript">
 
-    // $('#table').DataTable({
-    //     bStateSave: true,//状态保存
-    //     pading: true,
-    //     aoColumnDefs: [
-    //         //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-    //         {"orderable": false, "aTargets": [0]}// 不参与排序的列
-    //     ],
-    //     processing: true,
-    //     serverSide: true,
-    //     ajax: {
-    //         url: '/resource/files/listData',
-    //         type: 'GET'
-    //     },
-    //     columns: [
-    //         {
-    //             "data": "id",
-    //             "render": function (data, type, row) {
-    //                 return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
-    //             }
-    //         },
-    //         {"data": "fileName"},
-    //         {"data": "status"},
-    //         {"data": "filesType.type"}
-    //
-    //     ]
-    // });
+    $('#table').DataTable({
+        bStateSave: true,//状态保存
+        pading: true,
+        aoColumnDefs: [
+            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+            {"orderable": false, "aTargets": [0]}// 不参与排序的列
+        ],
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/resource/files/listData',
+            type: 'GET'
+        },
+        columns: [
+            {
+                "data": "id",
+                "render": function (data, type, row) {
+                    return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
+                }
+            },
+            {"data": "fileName"},
+            {"data": "status"},
+            {"data": "filesType.type"}
+
+        ]
+    });
 
 
     layui.use('upload', function(){
@@ -108,5 +107,26 @@
             }
         });
     });
+
+    // 常规ajax 调用文件下载也是不可取的，会造成文件乱码。
+    // 解决方法：ajax 首先调用一个获取文件路径的方法，根据这个方法的返回值来确定要不要继续下去，如果存在该文件，然后组装form表单，再调用下载的方法即可实现文件下载回显的效果。
+    $('#download').on('click', function () {
+        $.ajax({
+            type: 'POST',
+            url: '/resource/files/download',
+            success: function(response, status, request) {
+                var disp = request.getResponseHeader('Content-Disposition');
+                if (disp && disp.search('attachment') != -1) {  //判断是否为文件
+                    var form = $('<form method="POST" action="' + url + '">');
+                    $.each(params, function(k, v) {
+                        form.append($('<input type="hidden" name="' + k +
+                            '" value="' + v + '">'));
+                    });
+                    $('body').append(form);
+                    form.submit(); //自动提交
+                }
+            }
+        }, 'json')
+    })
 </script>
 </html>
