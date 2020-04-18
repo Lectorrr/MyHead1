@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<!--公共头-->
+<head th:replace="common/menu :: head">
+</head>
+<!--公共菜单-->
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+
+    <div th:replace="common/menu :: header"></div>
+    <div th:replace="common/menu :: nav"></div>
+
+    <!-- 内容主体区域 -->
+    <div class="layui-body" style="padding: 15px;">
+
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <span class="layui-breadcrumb">
+                    <a href="">首页</a>
+                    <a href="">用户管理</a>
+                    <a href="">图书信息</a>
+                    <a><cite>新增书籍信息</cite></a>
+                </span>
+            </div>
+
+            <div class="layui-card-body">
+                <div>
+                    <button class="layui-btn" id="save">提交</button>
+                </div>
+
+                <div></div>
+                <table class="layui-table" id="table">
+                    <thead>
+                    <tr>
+                        <th>书名</th>
+                        <th>作者</th>
+                        <th>出版社</th>
+                        <th>简介</th>
+                        <th>类别</th>
+                    </tr>
+                    <tr>
+                        <td><input id="bookName"/></td>
+                        <td><input id="author"/></td>
+                        <td><input id="publish"/></td>
+                        <td><input id="description"/></td>
+                        <td><input id="category"/></td>
+
+                        <!--<div class="col-xs-12 col-sm-9">-->
+                            <!--<div class="clearfix">-->
+                                <!--<select id="wareRoomLocation" name="wareRoomLocation"-->
+                                        <!--class="col-xs-12 col-sm-10">-->
+                                    <!--<c:forEach var="wareRoomLocation" items="${wareRoomLocationList}">-->
+                                        <!--<option value="${wareRoomLocation.id}">${wareRoomLocation.location}</option>-->
+                                    <!--</c:forEach>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+                    </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div th:replace="common/menu :: footer"></div>
+</div>
+</body>
+<th:block th:insert="~{common/menu :: script}"></th:block>
+<script type="text/javascript">
+
+    $('#save').bind('click', function () {
+
+        var category = {};
+        category.type = $('#category').val();
+
+        var formData = {};
+        formData.bookName = $('#bookName').val();
+        formData.author = $('#author').val();
+        formData.publish = $('#publish').val();
+        formData.description = $('#description').val();
+        formData.category = category;
+
+        console.log("data:", formData);
+
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/library/bookInfo/saveOrUpdate',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            }
+        );
+
+        // $.post('/library/bookInfo/saveOrUpdate', JSON.stringify(formData), function (data) {
+        //     console.log(data);
+        // }, 'json');
+
+    });
+</script>
+</html>
