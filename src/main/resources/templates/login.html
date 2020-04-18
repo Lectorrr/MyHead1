@@ -1,153 +1,59 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>layout 后台大布局 - Layui</title>
-    <link href="/js/layui/css/layui.css" rel="stylesheet"/>
-
-
-    <style type="text/css">
-        .container {
-            width: 420px;
-            height: 320px;
-            min-height: 320px;
-            max-height: 320px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            margin: auto;
-            padding: 20px;
-            z-index: 130;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
-            font-size: 16px;
+    <link rel="stylesheet" href="/js/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/js/layui/css/layuiadminstyle.css">
+    <style>
+        html,body{
+            height: 100%;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("/img/login_blackground.png");
+            background-size: cover;
         }
 
-        .close {
-            background-color: white;
-            border: none;
-            font-size: 18px;
-            margin-left: 410px;
-            margin-top: -10px;
+        .login-container {
+            border-radius: 15px;
+            background-clip: padding-box;
+            margin: 220px auto;
+            width: 20%;
+            height: 27%;
+            padding: 35px 35px 15px 35px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 0 25px #cac6c6;
         }
 
-        .layui-input {
-            border-radius: 5px;
-            width: 300px;
-            height: 40px;
-            font-size: 15px;
-        }
-
-        .layui-form-item {
-            margin-left: -20px;
-        }
-
-        .layui-form-item {
-            margin-left: -20px;
-        }
-
-        #logoid {
-            margin-top: -16px;
-            padding-left: 150px;
-            padding-bottom: 15px;
-        }
-
-        .layui-btn {
-            margin-left: -50px;
-            border-radius: 5px;
-            width: 350px;
-            height: 40px;
-            font-size: 15px;
-        }
-
-        .verity {
-            width: 120px;
-        }
-
-        .font-set {
-            font-size: 13px;
-            text-decoration: none;
-            color: #0C0C0C;
-            margin-left: 120px;
-        }
-
-        a:hover {
-            text-decoration: underline;
+        .login_title {
+            margin: 1px auto 40px auto;
+            text-align: center;
+            color: #505458;
         }
     </style>
-
 </head>
-<body class="layui-bg-black">
+<body>
 
-<div class="layui-form" id="login-modal">
-    <form class="layui-form" action="" method="post">
-        <div class="container">
-            <!--<button class="close" title="关闭">X</button>-->
-            <div class="layui-form-mid layui-word-aux">
-                <!--<img id="logoid" src="06.png" height="35">-->
-                <div class="layui-form-item">
-                    登&nbsp;&nbsp;录
-                </div>
-            </div>
-
-            <br /><br /><br />
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="color: #0C0C0C"><i class="layui-icon layui-icon-username"></i>用户名</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" required lay-verify="required" placeholder="请输入用户名"
-                           autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="color: #0C0C0C"><i class="layui-icon layui-icon-password"></i>密
-                    &nbsp;&nbsp;码</label>
-                <div class="layui-input-inline">
-                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
-                           autocomplete="off"
-                           class="layui-input">
-                </div>
-                <!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
-            </div>
-            <!--<div class="layui-form-item">-->
-                <!--<label class="layui-form-label" style="color: #0C0C0C">验证码</label>-->
-                <!--<div class="layui-input-inline">-->
-                    <!--<input type="text" name="title" required lay-verify="required" placeholder="请输入验证码"-->
-                           <!--autocomplete="off"-->
-                           <!--class="layui-input verity">-->
-                <!--</div>-->
-                <!--&lt;!&ndash; <div class="layui-form-mid layui-word-aux">辅助文字</div> &ndash;&gt;-->
-
-            <!--</div>-->
-            <!-- 			  <div class="layui-form-item">
-                                <label class="layui-form-label">记住密码</label>
-                                <div class="layui-input-block">
-                                  <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
-                                </div>
-                          </div> -->
-
-            <br /><br /><br />
-
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" data-name="save" lay-submit lay-filter="formDemo">登&nbsp;&nbsp;&nbsp;&nbsp;陆</button>
-                </div>
-            </div>
-
-            <a href="" class="font-set">忘记密码?</a> <a href="" class="font-set">立即注册</a>
-
+<div class="login-div login-container">
+    <h1 class="login_title">登录入口</h1>
+    <form id="login-form" action="#">
+        <div class="login-form-item">
+            <input name="username" placeholder="用户名">
         </div>
+        <div class="login-form-item">
+            <input name="password" type="password" placeholder="密码">
+        </div>
+        <button class="btn-login" style="width: 100%;background: #505458;border: none" type="submit">登录</button>
     </form>
 </div>
 
 </body>
 <script src="/js/layui/layui.js"></script>
 <script src="/js/jquery-3.4.1/jquery-3.4.1.js"></script>
-
-<script type="text/javascript" src="layui/layui.js"></script>
 <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
         var form = layui.form
