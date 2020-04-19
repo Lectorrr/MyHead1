@@ -29,6 +29,13 @@ public class SysUser extends BaseEntity<String> {
     @Column(name = "salt")
     private String salt;
 
+
+    /**
+     * 昵称
+     */
+    @Column(name = "nickname")
+    private String nickname;
+
     /**
      * 用户状态：0-锁定；1-正常
      */
@@ -100,6 +107,14 @@ public class SysUser extends BaseEntity<String> {
 
     public void setRole(SysRole role) {
         this.role = role;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     /**
