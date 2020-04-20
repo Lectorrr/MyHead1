@@ -9,7 +9,7 @@
 </head>
 <body style="background-image: url('/img/login_blackground.png');background-size: cover;display: flex;align-items: center;">
 
-<div class="login-div login-container">
+<div class="login-div login-container" id="registered-modal">
     <h1 class="login_title">注册</h1>
     <form id="login-form" action="#">
         <div class="login-form-item">
@@ -23,8 +23,7 @@
 </div>
 
 </body>
-<script src="/js/layui/layui.js"></script>
-<script src="/js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<th:block th:insert="~{common/menu :: script}"></th:block>
 <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
         var form = layui.form

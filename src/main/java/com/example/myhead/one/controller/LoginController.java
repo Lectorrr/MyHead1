@@ -21,6 +21,10 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping(value = "/registered")
+    public String registered(){
+        return "registered";
+    }
 
 
 
