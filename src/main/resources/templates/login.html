@@ -14,14 +14,15 @@
     <form id="login-form" action="#">
 
         <div class="login-form-item">
-            <input name="username" placeholder="用户名">
+            <input id="username" name="username" placeholder="用户名">
         </div>
 
         <div class="login-form-item">
-            <input name="password" type="password" placeholder="密码">
+            <input id="password" name="password" type="password" placeholder="密码">
         </div>
 
-        <button class="btn-login" style="width: 100%;background: #505458;border: none" type="submit">登录</button>
+        <button data-name="save" class="btn-login" style="width: 100%;background: #505458;border: none" type="submit">登录
+        </button>
 
         <div class="login-form-item">
             <p class="text-center mt-2">
@@ -34,44 +35,94 @@
 </body>
 <th:block th:insert="~{common/menu :: script}"></th:block>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form
-            , layer = layui.layer
-            , layedit = layui.layedit
-            , laydate = layui.laydate;
+    $(function () {
 
-        //日期
-        /* laydate.render({
-           elem: '#date'
-         });
-         laydate.render({
-           elem: '#date1'
-         });
-
-         //创建一个编辑器
-         var editIndex = layedit.build('LAY_demo_editor');
-
-        //监听提交
-        form.on('submit(demo1)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
-            return false;
+        //按钮事件注册
+        $('#login-modal').on('click', 'button[data-name=save]', function () {
+            if (validateForm.form()) {
+                $('#login-form').find('button').attr('disabled');
+                console.log("123");
+                login();
+            }
         });
 
-        //表单初始赋值
-        /* form.val('example', {
-           "username": "贤心" // "name": "value"
-           ,"password": "123456"
-           ,"interest": 1
-           ,"like[write]": true //复选框选中状态
-           ,"close": true //开关状态
-           ,"sex": "女"
-           ,"desc": "我爱 layui"
-         })*/
+        //让当前表单调用validate方法，实现表单验证功能
+        var validateForm = $('#login-form').validate({
+
+            rules: {
+                username: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                username: {
+                    required: "请输入用户名"
+                },
+                password: {
+                    required: "请输入密码"
+                }
+            }
+        });
+
+        function login() {
+
+            var formdata = {};
+            formdata.username = $('#username').val();
+            formdata.password = $('#password').val();
+
+            console.log(formdata);
+            // $.ajax({
+            //     url: "/login/confirm",
+            //     type: "POST",
+            //     data:
+            // })
+        }
 
 
-    });
+
+        // layui.use(['form', 'layedit', 'laydate'], function () {
+        //     var form = layui.form
+        //         , layer = layui.layer
+        //         , layedit = layui.layedit
+        //         , laydate = layui.laydate;
+        //
+        //     //日期
+        //     /* laydate.render({
+        //        elem: '#date'
+        //      });
+        //      laydate.render({
+        //        elem: '#date1'
+        //      });
+        //
+        //      //创建一个编辑器
+        //      var editIndex = layedit.build('LAY_demo_editor');
+        //
+        //     //监听提交
+        //     form.on('submit(demo1)', function (data) {
+        //         layer.alert(JSON.stringify(data.field), {
+        //             title: '最终的提交信息'
+        //         })
+        //         return false;
+        //     });
+        //
+        //     //表单初始赋值
+        //     /* form.val('example', {
+        //        "username": "贤心" // "name": "value"
+        //        ,"password": "123456"
+        //        ,"interest": 1
+        //        ,"like[write]": true //复选框选中状态
+        //        ,"close": true //开关状态
+        //        ,"sex": "女"
+        //        ,"desc": "我爱 layui"
+        //      })*/
+        //
+        //
+        // });
+
+    })
 </script>
 
 <script>

@@ -1,6 +1,5 @@
 package com.example.myhead.one.service.sys;
 
-
 import com.example.myhead.one.base.BaseService;
 import com.example.myhead.one.dao.sys.SysUserDao;
 import com.example.myhead.one.entity.sys.SysUser;
@@ -39,11 +38,12 @@ public class SysUserService extends BaseService<SysUser> {
 
     /**
      * 根据用户名判断用户是否存在
+     *
      * @param username 用户名
      */
     public boolean isExist(String username) {
         SysUser user = sysUserDao.getByUsername(username);
-        return null!=user;
+        return null != user;
     }
 
     public SysUser findUserByUser(String account, String password) {

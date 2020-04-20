@@ -29,12 +29,23 @@ public class SysUser extends BaseEntity<String> {
     @Column(name = "salt")
     private String salt;
 
-
     /**
      * 昵称
      */
     @Column(name = "nickname")
     private String nickname;
+
+    /**
+     * 手机号码
+     */
+    @Column(name = "mobile_phone")
+    private String mobilePhone;
+
+    /**
+     * 电子邮箱
+     */
+    @Column(name = "email")
+    private String email;
 
     /**
      * 用户状态：0-锁定；1-正常
@@ -115,6 +126,22 @@ public class SysUser extends BaseEntity<String> {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**

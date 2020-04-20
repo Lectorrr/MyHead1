@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class LoginController {
 
@@ -24,6 +26,18 @@ public class LoginController {
     @RequestMapping(value = "/registered")
     public String registered(){
         return "registered";
+    }
+
+    /**
+     * 验证登录
+     */
+    @RequestMapping(value = "/login/confirm")
+    public String loginConfirm(HttpServletRequest request){
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        return "";
     }
 
 
