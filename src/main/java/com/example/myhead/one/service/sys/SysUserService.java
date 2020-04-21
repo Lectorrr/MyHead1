@@ -22,8 +22,8 @@ public class SysUserService extends BaseService<SysUser> {
      *
      * @param username 用户名
      */
-    public SysUser findByUsername(String username) {
-        return sysUserDao.findByUsername(username);
+    public SysUser findSysUserByUsername(String username) {
+        return sysUserDao.findSysUserByUsername(username);
     }
 
     /**
@@ -32,17 +32,18 @@ public class SysUserService extends BaseService<SysUser> {
      * @param username 用户名
      * @param password 密码
      */
-    public SysUser findByUsernameAndPassword(String username, String password) {
-        return sysUserDao.findByUsernameAndPassword(username, password);
+    public SysUser findSysUserByUsernameAndPassword(String username, String password) {
+        return sysUserDao.findSysUserByUsernameAndPassword(username, password);
     }
 
     /**
      * 根据用户名判断用户是否存在
      *
      * @param username 用户名
+     * return -true 存在该用户 -false 不存在该用户
      */
     public boolean isExist(String username) {
-        SysUser user = sysUserDao.getByUsername(username);
+        SysUser user = sysUserDao.getSysUserByUsername(username);
         return null != user;
     }
 

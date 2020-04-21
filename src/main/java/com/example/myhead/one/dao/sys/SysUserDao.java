@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SysUserDao extends BaseDao<SysUser, String> {
 
-    SysUser findByUsername(String username);
-    SysUser findByUsernameAndPassword(String username, String password);
-    SysUser getByUsername(String username);
+    SysUser findSysUserByUsername(String username);
+    SysUser findSysUserByUsernameAndPassword(String username, String password);
+    SysUser getSysUserByUsername(String username);
 }
