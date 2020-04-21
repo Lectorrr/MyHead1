@@ -82,11 +82,27 @@
             formdata.password = $('#password').val();
 
             console.log(formdata);
-            // $.ajax({
-            //     url: "/login/confirm",
-            //     type: "POST",
-            //     data:
-            // })
+
+            $.ajax({
+                url: '/login',
+                type: 'post',
+                dataType: 'json',
+                data: formdata,
+                success: function (data) {
+                    if (data.code == 200) {
+                        console.log(data.message);
+                        window.location.href='/index';
+                        // layer.alert(data.msg, function () {
+                            // layer.closeAll();
+                            // load(obj);
+                        // });
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+
+
         }
 
 
