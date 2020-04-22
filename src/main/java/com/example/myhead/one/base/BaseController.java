@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.Serializable;
 
@@ -18,9 +19,7 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
     private BaseService<E> baseService;
 
     protected String PathPrefix;
-
     private String viewPrefix;
-
     protected final Class<E> entityClass;
 
     protected BaseController() {
@@ -35,7 +34,6 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
         if (requestMapping != null && requestMapping.value().length > 0) {
             currentViewPrefix = requestMapping.value()[0];
         }
-
         if (StringUtils.isEmpty(currentViewPrefix)) {
             currentViewPrefix = this.entityClass.getSimpleName();
         }
@@ -43,7 +41,6 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
     }
 
     public String viewName(String suffixName) {
-
         if (!suffixName.startsWith("/")) {
             suffixName = "/" + suffixName;
         }
@@ -51,7 +48,6 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
     }
 
     public void setViewPrefix(String viewPrefix) {
-
         if (viewPrefix.startsWith("/")) {
             viewPrefix = viewPrefix.substring(1);
         }
@@ -70,19 +66,6 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
         PathPrefix = pathPrefix;
     }
 
-
-    /**
-     * list 查方法
-     */
-
-    /**
-     * 显示 create 创建页面
-     */
-    @RequestMapping("/showCreatePage")
-    public String showCreatePage() {
-        return this.viewName(this.getPathPrefix()) + "-create";
-    }
-
     /**
      * 显示 list 界面
      */
@@ -92,49 +75,42 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
     }
 
     /**
+     * 显示 create 创建页面
+     */
+    @RequestMapping(value = "/showCreatePage", method = RequestMethod.GET)
+    public String showCreatePage(Model model) {
+        return doShowCreatePage();
+
+    }
+
+    public String doShowCreatePage() {
+        return this.viewName(this.getPathPrefix()) + "-create";
+    }
+
+    /**
      * 显示 update 编辑界面
      */
-    @RequestMapping("/showUpdatePage/{id}")
+    @RequestMapping(value = "/showUpdatePage/{id}", method = RequestMethod.GET)
     public String updatePage(@PathVariable String id, Model model) {
-        Object object = baseService.get(id);
-        model.addAttribute("e", object);
+        E entity = baseService.get(id);
+        return doShowUpdatePage(entity, model);
+
+    }
+
+    public String doShowUpdatePage(E entity, Model model) {
+        model.addAttribute("e", entity);
         return this.viewName(this.getPathPrefix()) + "-update";
     }
 
-    /**
-     * add 增加方法
-     */
-    @RequestMapping("/add")
-    public E addEntity(E entity) {
-        Object object = baseService.saveOrUpdate(entity);
-        return (E) object;
+    @RequestMapping(value = "showDetailPage/{id}", method = RequestMethod.GET)
+    public String showDeleteForm(@PathVariable("id") String id, Model model) {
+        E entity = baseService.get(id);
+        return doShowDetailPage(entity, model);
     }
 
+    public String doShowDetailPage(E entity, Model model) {
+        model.addAttribute("e", entity);
+        return this.viewName(this.getPathPrefix() + "-detail");
 
-    /**
-     * add 增加 json 数据格式方法
-     */
-
-
-    /**
-     * 删除
-     *
-     * @param id 实体的id
-     */
-
-
-    /**
-     * 批量删除
-     *
-     * @param json
-     * @return
-     */
-
-
-    /**
-     * 查看详细数据
-     *
-     * @param id 实体id
-     */
-
+    }
 }
