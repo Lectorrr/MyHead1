@@ -18,9 +18,8 @@
             <div class="layui-card-header">
                 <span class="layui-breadcrumb">
                     <a href="">首页</a>
-                    <a href="">资源区</a>
-                    <a href="">查看列表</a>
-                    <a><cite>列表</cite></a>
+                    <a href="">用户管理</a>
+                    <a><cite>查看列表</cite></a>
                 </span>
             </div>
 
@@ -56,9 +55,12 @@
                 <table class="layui-table" id="table">
                     <thead>
                     <tr>
-                        <th></th>
+                        <th width="27"></th>
                         <th>用户名称</th>
+                        <th>用户昵称</th>
                         <th>用户状态</th>
+                        <th>手机号码</th>
+                        <th>邮箱</th>
                     </tr>
                     </thead>
                 </table>
@@ -96,7 +98,10 @@
                     }
                 },
                 {"data": "username"},
-                {"data": "status"}
+                {"data": "nickname"},
+                {"data": "status"},
+                {"data": "mobilePhone"},
+                {"data": "email"}
 
             ]
         });
