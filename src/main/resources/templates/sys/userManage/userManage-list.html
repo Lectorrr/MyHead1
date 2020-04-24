@@ -28,46 +28,48 @@
                     <div>
                         <a href="/sys/userManage/showCreatePage">
                             <div class="layui-btn">
-                                <i class="layui-icon layui-icon-add-1"></i>
                                 新增
                             </div>
                         </a>
                         <a href="/sys/userManage/showUpdatePage">
                             <div class="layui-btn">
-                                <i class="layui-icon layui-icon-edit"></i>
                                 编辑
                             </div>
                         </a>
-
                         <button class="layui-btn layui-btn-danger">删除</button>
 
-                        <a href="/sys/userManage/showUpdatePage">
-                            <div class="layui-btn layui-btn-danger">
-                                <i class="layui-icon layui-icon-delete"></i>
-                                删除
-                            </div>
-                        </a>
                     </div>
 
                 </div>
 
-                <div></div>
-                <table class="layui-table" id="table">
-                    <thead>
-                    <tr>
-                        <th width="27"></th>
-                        <th>用户名称</th>
-                        <th>用户昵称</th>
-                        <th>用户状态</th>
-                        <th>手机号码</th>
-                        <th>邮箱</th>
-                    </tr>
-                    </thead>
-                </table>
+                <div class="layui-form">
+                    <table class="layui-table" id="table">
+                        <colgroup>
+                            <col width="50">
+                            <col width="150">
+                            <col width="150">
+                            <col width="200">
+                            <col width="200">
+                            <col width="200">
+                            <col width="200">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                            <th>用户名称</th>
+                            <th>用户昵称</th>
+                            <th>用户状态</th>
+                            <th>性别</th>
+                            <th>手机号码</th>
+                            <th>邮箱</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+
             </div>
         </div>
-
-
     </div>
 
     <div th:replace="common/menu :: footer"></div>
@@ -77,6 +79,22 @@
 <script type="text/javascript">
 
     $(function () {
+
+        // //复选框全选
+        // layui.use('form', function () {
+        //     var $ = layui.jquery, form = layui.form();
+        //
+        //     //全选
+        //     form.on('checkbox(allChoose)', function (data) {
+        //         var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+        //         child.each(function (index, item) {
+        //             item.checked = data.elem.checked;
+        //         });
+        //         form.render('checkbox');
+        //     });
+        //
+        // });
+
         $('#table').DataTable({
             bStateSave: true,//状态保存
             pading: true,
@@ -94,19 +112,62 @@
                 {
                     "data": "id",
                     "render": function (data, type, row) {
-                        return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
+                        return '<input type="checkbox" style="width: 50px" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '" lay-skin="primary"/>'
                     }
                 },
                 {"data": "username"},
                 {"data": "nickname"},
                 {"data": "status"},
+                {"data": "sex"},
                 {"data": "mobilePhone"},
                 {"data": "email"}
 
             ]
         });
 
+        //点击新增按钮
+        $('#showCreatePage').on('click', function () {
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: '/sys/userManage/showCreatePage',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        alert(data.message);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                }
+            );
+        });
 
+        //点击编辑按钮
+        $('#showUpdatePage').on('click', function () {
+            var checkStatus = table.checkStatus('table'), data = checkStatus.data;
+            if (data.length != 1) {
+                layer.alert("请选择一条记录!", {icon: 0});
+            } else {
+
+                $.ajax(
+                    {
+                        type: 'GET',
+                        url: '/sys/userManage/showUpdatePage/' + data[0].id,
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                            alert(data.message);
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    }
+                );
+            }
+        });
     })
 </script>
 </html>
