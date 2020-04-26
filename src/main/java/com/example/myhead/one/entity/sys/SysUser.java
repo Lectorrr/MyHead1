@@ -60,6 +60,12 @@ public class SysUser extends BaseEntity<String> {
     private Integer delFlag = 0;
 
     /**
+     * 性别
+     */
+    @Column(name = "sex")
+    private String sex;
+
+    /**
      * 用户和角色关联
      * 多对多的关系
      */
@@ -142,6 +148,14 @@ public class SysUser extends BaseEntity<String> {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     /**
