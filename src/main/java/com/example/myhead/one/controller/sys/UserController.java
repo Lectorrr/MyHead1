@@ -3,6 +3,7 @@ package com.example.myhead.one.controller.sys;
 import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
 import com.example.myhead.one.common.entity.ResultData;
+import com.example.myhead.one.common.entity.TablePage;
 import com.example.myhead.one.entity.sys.SysUser;
 import com.example.myhead.one.service.sys.SysRoleService;
 import com.example.myhead.one.service.sys.SysUserService;
@@ -46,10 +47,14 @@ public class UserController extends BaseController<SysUser, String> {
      */
     @RequestMapping(value = "/listData", method = RequestMethod.GET)
     @ResponseBody
-    public String listData(HttpServletRequest request) {
+    public String listData(HttpServletRequest request, int page, int limit) {
         Map<String, String[]> parameterMap = request.getParameterMap();
-        ResultData<SysUser> resultData = sysUserService.findWithPage(parameterMap, SysUser.class);
-        return JSON.toJSONString(resultData);
+//        ResultData<SysUser> resultData = sysUserService.findWithPage(parameterMap, SysUser.class);
+//        return JSON.toJSONString(resultData);
+
+        TablePage<SysUser> table = new TablePage<>();
+        table.setRows(sysUserService.findAll());
+        return JSON.toJSONString(table);
     }
 
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)

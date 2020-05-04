@@ -42,30 +42,34 @@
 
                 </div>
 
+                <!--<div class="layui-form">-->
+                <!--<table class="layui-table" id="table">-->
+                <!--<colgroup>-->
+                <!--<col width="50">-->
+                <!--<col width="150">-->
+                <!--<col width="150">-->
+                <!--<col width="200">-->
+                <!--<col width="200">-->
+                <!--<col width="200">-->
+                <!--<col width="200">-->
+                <!--<col>-->
+                <!--</colgroup>-->
+                <!--<thead>-->
+                <!--<tr>-->
+                <!--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>-->
+                <!--<th>用户名称</th>-->
+                <!--<th>用户昵称</th>-->
+                <!--<th>用户状态</th>-->
+                <!--<th>性别</th>-->
+                <!--<th>手机号码</th>-->
+                <!--<th>邮箱</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--</table>-->
+                <!--</div>-->
+
                 <div class="layui-form">
-                    <table class="layui-table" id="table">
-                        <colgroup>
-                            <col width="50">
-                            <col width="150">
-                            <col width="150">
-                            <col width="200">
-                            <col width="200">
-                            <col width="200">
-                            <col width="200">
-                            <col>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
-                            <th>用户名称</th>
-                            <th>用户昵称</th>
-                            <th>用户状态</th>
-                            <th>性别</th>
-                            <th>手机号码</th>
-                            <th>邮箱</th>
-                        </tr>
-                        </thead>
-                    </table>
+                    <table class="layui-table table-responsive-sm" id="test" lay-filter="table"></table>
                 </div>
 
             </div>
@@ -95,54 +99,83 @@
         //
         // });
 
-        $('#table').DataTable({
-            bStateSave: true,//状态保存
-            pading: true,
-            aoColumnDefs: [
-                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                {"orderable": false, "aTargets": [0]}// 不参与排序的列
-            ],
-            processing: true,
-            serverSide: true,
-            ajax: {
+        // $('#table').DataTable({
+        //
+        //     bStateSave: true,//状态保存
+        //     pading: true,
+        //     aoColumnDefs: [
+        //         //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+        //         {"orderable": false, "aTargets": [0]}// 不参与排序的列
+        //     ],
+        //     processing: true,
+        //     serverSide: true,
+        //     ajax: {
+        //         url: '/sys/userManage/listData',
+        //         type: 'GET'
+        //     },
+        //     columns: [
+        //         {
+        //             "data": "id",
+        //             "render": function (data, type, row) {
+        //                 return '<input type="checkbox" style="width: 50px" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '" lay-skin="primary"/>'
+        //             }
+        //         },
+        //         {"data": "username"},
+        //         {"data": "nickname"},
+        //         {"data": "status"},
+        //         {"data": "sex"},
+        //         {"data": "mobilePhone"},
+        //         {"data": "email"}
+        //
+        //     ]
+        // });
+
+        layui.use('table', function () {
+            var table = layui.table, $ = layui.jquery;
+            var opt = {
+                elem: '#test',
                 url: '/sys/userManage/listData',
-                type: 'GET'
-            },
-            columns: [
-                {
-                    "data": "id",
-                    "render": function (data, type, row) {
-                        return '<input type="checkbox" style="width: 50px" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '" lay-skin="primary"/>'
+                height: 410,
+                page: true, //开启分页,
+                limit: 5,
+                limits: [5, 10, 20, 50],
+                parseData: function (res) {
+                    console.log("res", res);
+                    return {
+                        'code': 0,      //数据状态，为0才会渲染
+                        'msg': "",      //状态信息
+                        'count': 1000,  //数据长度
+                        data: res
                     }
                 },
-                {"data": "username"},
-                {"data": "nickname"},
-                {"data": "status"},
-                {"data": "sex"},
-                {"data": "mobilePhone"},
-                {"data": "email"}
-
-            ]
+                cols:
+                    [
+                        [
+                            {type: 'checkbox'},
+                            {field: 'id', width: 80, title: 'ID', sort: true},
+                            {field: 'username', width: 100, title: '用户名'},
+                            {field: 'nickname', width: 100, title: '姓名'},
+                            {field: 'sex', width: 60, title: '性别', templet: '#sexTpl'},
+                            {field: 'status', width: 120, title: '使用状态', sort: true, templet: '#statusTpl'},
+                            {field: 'email', width: 150, title: 'email'},
+                            {field: 'mobilePhone', width: 150, title: '手机号码'}
+                        ]
+                    ]
+            };
+            var tableIns = table.render(opt);
+            table.on('sort(table)', function (obj) {
+                debugger;
+                tableIns.reload({
+                    initSort: obj,
+                    where: {
+                        sortName: obj.field,
+                        sortOrder: obj.type,
+                        pageName: 'pageNumber', //页码的参数名称，默认：page
+                        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                    }
+                })
+            });
         });
-
-        // //点击新增按钮
-        // $('#showCreatePage').on('click', function () {
-        //     $.ajax(
-        //         {
-        //             type: 'POST',
-        //             url: '/sys/userManage/showCreatePage',
-        //             contentType: 'application/json',
-        //             dataType: 'json',
-        //             success: function (data) {
-        //                 console.log(data);
-        //                 alert(data.message);
-        //             },
-        //             error: function (e) {
-        //                 console.log(e);
-        //             }
-        //         }
-        //     );
-        // });
         //
         // //点击编辑按钮
         // $('#showUpdatePage').on('click', function () {
