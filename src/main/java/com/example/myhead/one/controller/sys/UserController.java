@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
 import com.example.myhead.one.common.entity.ResultData;
 import com.example.myhead.one.entity.sys.SysUser;
+import com.example.myhead.one.service.sys.SysRoleService;
 import com.example.myhead.one.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,10 +24,18 @@ public class UserController extends BaseController<SysUser, String> {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysRoleService sysRoleService;
 
     @Override
     public String getPathPrefix() {
         return "userManage";
+    }
+
+    @Override
+    public String showCreatePage(Model model) {
+        model.addAttribute("role", sysRoleService.findAll());
+        return super.showCreatePage(model);
     }
 
     /**

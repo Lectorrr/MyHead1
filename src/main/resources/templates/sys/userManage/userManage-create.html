@@ -41,6 +41,15 @@
                         <form class="layui-form" action="" id="create-form">
 
                             <div class="layui-form-item">
+                                <label class="layui-form-label">所属角色权限</label>
+                                <div class="layui-input-inline">
+                                    <select id="role" name="role" lay-verify="required" class="layui-select">
+                                        <option th:each="role: ${role}" th:value="${role.id}" th:text="${role.roleName}"></option>>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
                                 <label class="layui-form-label">帐号</label>
                                 <div class="layui-input-inline">
                                     <input id="username" type="text" name="title" required="" lay-verify="required"
@@ -56,6 +65,8 @@
                                 </div>
                             </div>
 
+                            <c:for></c:for>
+                            <c:forEach></c:forEach>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">再次密码</label>
                                 <div class="layui-input-inline">
@@ -191,6 +202,11 @@
 
         function saveOrUpdate() {
 
+            console.log("role:", $('#role').find('option:selected').val());
+            var roleData = {};
+            roleData.id = $('#role').find('option:selected').val();
+
+
             var formData = {};
             formData.username = $('#username').val();
             formData.password = $('#password').val();
@@ -198,6 +214,7 @@
             formData.sex = $('#sex').find('option:selected').val();
             formData.email = $('#email').val();
             formData.mobilePhone = $('#mobilePhone').val();
+            formData.role = roleData;
 
             console.log("data:", formData);
 
