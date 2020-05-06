@@ -48,13 +48,16 @@ public class UserController extends BaseController<SysUser, String> {
     @RequestMapping(value = "/listData", method = RequestMethod.GET)
     @ResponseBody
     public String listData(HttpServletRequest request, int page, int limit) {
-        Map<String, String[]> parameterMap = request.getParameterMap();
+
+//        Map<String, String[]> parameterMap = request.getParameterMap();
 //        ResultData<SysUser> resultData = sysUserService.findWithPage(parameterMap, SysUser.class);
 //        return JSON.toJSONString(resultData);
 
-        TablePage<SysUser> table = new TablePage<>();
-        table.setRows(sysUserService.findAll());
-        return JSON.toJSONString(table);
+//        TablePage<SysUser> table = new TablePage<>();
+//        table.setRows(sysUserService.findAll());
+        Map<String, Object> data = new HashMap<>();
+        data.put("data", sysUserService.findAll());
+        return JSON.toJSONString(data);
     }
 
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)

@@ -131,14 +131,15 @@
         // });
 
         layui.use('table', function () {
-            var table = layui.table, $ = layui.jquery;
+            var $ = layui.jquery,
+                element = layui.element, //Tab的切换功能，切换事件监听等，需要依赖element模块
+                table = layui.table;
+
             var opt = {
                 elem: '#test',
                 url: '/sys/userManage/listData',
                 height: 410,
-                page: true, //开启分页,
-                limit: 5,
-                limits: [5, 10, 20, 50],
+                page: false, //开启分页,
                 parseData: function (res) {
                     console.log("res", res);
                     return {
@@ -153,28 +154,31 @@
                         [
                             {type: 'checkbox'},
                             {field: 'id', width: 80, title: 'ID', sort: true},
-                            {field: 'username', width: 100, title: '用户名'},
-                            {field: 'nickname', width: 100, title: '姓名'},
-                            {field: 'sex', width: 60, title: '性别', templet: '#sexTpl'},
-                            {field: 'status', width: 120, title: '使用状态', sort: true, templet: '#statusTpl'},
+                            {field: 'username', width: 100, title: '登录帐号'},
+                            {field: 'nickname', width: 100, title: '昵称', sort: true},
+                            {field: 'sex', width: 60, title: '性别', sort: true},
+                            {field: 'status', width: 120, title: '使用状态', sort: true,},
                             {field: 'email', width: 150, title: 'email'},
-                            {field: 'mobilePhone', width: 150, title: '手机号码'}
+                            {field: 'mobilePhone', width: 150, title: '手机号码', sort: true}
                         ]
-                    ]
+                    ],
+                done: function (res, curr, count) {
+                    table = res.data;
+                }
             };
-            var tableIns = table.render(opt);
-            table.on('sort(table)', function (obj) {
-                debugger;
-                tableIns.reload({
-                    initSort: obj,
-                    where: {
-                        sortName: obj.field,
-                        sortOrder: obj.type,
-                        pageName: 'pageNumber', //页码的参数名称，默认：page
-                        limitName: 'pageSize' //每页数据量的参数名，默认：limit
-                    }
-                })
-            });
+            table.render(opt);
+            // table.on('sort(table)', function (obj) {
+            //     debugger;
+            //     tableIns.reload({
+            //         initSort: obj,
+            //         where: {
+            //             sortName: obj.field,
+            //             sortOrder: obj.type,
+            //             pageName: 'pageNumber', //页码的参数名称，默认：page
+            //             limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            //         }
+            //     })
+            // });
         });
         //
         // //点击编辑按钮
