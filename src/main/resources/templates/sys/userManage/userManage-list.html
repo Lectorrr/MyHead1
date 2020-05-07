@@ -42,34 +42,8 @@
 
                 </div>
 
-                <!--<div class="layui-form">-->
-                <!--<table class="layui-table" id="table">-->
-                <!--<colgroup>-->
-                <!--<col width="50">-->
-                <!--<col width="150">-->
-                <!--<col width="150">-->
-                <!--<col width="200">-->
-                <!--<col width="200">-->
-                <!--<col width="200">-->
-                <!--<col width="200">-->
-                <!--<col>-->
-                <!--</colgroup>-->
-                <!--<thead>-->
-                <!--<tr>-->
-                <!--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>-->
-                <!--<th>用户名称</th>-->
-                <!--<th>用户昵称</th>-->
-                <!--<th>用户状态</th>-->
-                <!--<th>性别</th>-->
-                <!--<th>手机号码</th>-->
-                <!--<th>邮箱</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--</table>-->
-                <!--</div>-->
-
                 <div class="layui-form">
-                    <table class="layui-table table-responsive-sm" id="test" lay-filter="table"></table>
+                    <table class="layui-table table-responsive-sm" id="table" lay-filter="table"></table>
                 </div>
 
             </div>
@@ -84,61 +58,14 @@
 
     $(function () {
 
-        // //复选框全选
-        // layui.use('form', function () {
-        //     var $ = layui.jquery, form = layui.form();
-        //
-        //     //全选
-        //     form.on('checkbox(allChoose)', function (data) {
-        //         var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
-        //         child.each(function (index, item) {
-        //             item.checked = data.elem.checked;
-        //         });
-        //         form.render('checkbox');
-        //     });
-        //
-        // });
-
-        // $('#table').DataTable({
-        //
-        //     bStateSave: true,//状态保存
-        //     pading: true,
-        //     aoColumnDefs: [
-        //         //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-        //         {"orderable": false, "aTargets": [0]}// 不参与排序的列
-        //     ],
-        //     processing: true,
-        //     serverSide: true,
-        //     ajax: {
-        //         url: '/sys/userManage/listData',
-        //         type: 'GET'
-        //     },
-        //     columns: [
-        //         {
-        //             "data": "id",
-        //             "render": function (data, type, row) {
-        //                 return '<input type="checkbox" style="width: 50px" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '" lay-skin="primary"/>'
-        //             }
-        //         },
-        //         {"data": "username"},
-        //         {"data": "nickname"},
-        //         {"data": "status"},
-        //         {"data": "sex"},
-        //         {"data": "mobilePhone"},
-        //         {"data": "email"}
-        //
-        //     ]
-        // });
-
         layui.use('table', function () {
             var $ = layui.jquery,
                 element = layui.element, //Tab的切换功能，切换事件监听等，需要依赖element模块
                 table = layui.table;
 
             var opt = {
-                elem: '#test',
+                elem: '#table',
                 url: '/sys/userManage/listData',
-                height: 410,
                 page: false, //开启分页,
                 parseData: function (res) {
                     console.log("res", res);
@@ -153,13 +80,13 @@
                     [
                         [
                             {type: 'checkbox'},
-                            {field: 'id', width: 80, title: 'ID'},
-                            {field: 'username', width: 100, title: '登录帐号'},
-                            {field: 'nickname', width: 100, title: '昵称'},
-                            {field: 'sex', width: 60, title: '性别'},
-                            {field: 'status', width: 120, title: '使用状态'},
-                            {field: 'email', width: 150, title: 'email'},
-                            {field: 'mobilePhone', width: 150, title: '手机号码'}
+                            {field: 'id', title: 'ID'},
+                            {field: 'username', title: '登录帐号'},
+                            {field: 'nickname', title: '昵称'},
+                            {field: 'sex', title: '性别'},
+                            {field: 'status', title: '使用状态'},
+                            {field: 'email', title: 'email'},
+                            {field: 'mobilePhone', title: '手机号码'}
                         ]
                     ],
                 done: function (res, curr, count) {
