@@ -31,7 +31,7 @@
                                 新增
                             </div>
                         </a>
-                        <a href="#" id="showUpdatePage">
+                        <a href="#" id="showUpdatePage" lay-event="edit">
                             <div class="layui-btn">
                                 编辑
                             </div>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="layui-form">
-                    <table class="layui-table table-responsive-sm" id="table" lay-filter="table"></table>
+                    <table class="layui-table table-responsive-sm" id="table" lay-filter="table" lay-data="{id: 'table'}"></table>
                 </div>
 
             </div>
@@ -56,86 +56,167 @@
 <th:block th:insert="~{common/menu :: script}"></th:block>
 <script type="text/javascript">
 
-    $(function () {
 
-        layui.use('table', function () {
-            var $ = layui.jquery,
-                element = layui.element, //Tab的切换功能，切换事件监听等，需要依赖element模块
-                table = layui.table;
+    layui.use('table', function () {
+        var $ = layui.jquery;
+        var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+        var table = layui.table;
 
-            var opt = {
-                elem: '#table',
-                url: '/sys/userManage/listData',
-                page: false, //开启分页,
-                parseData: function (res) {
-                    console.log("res", res);
-                    return {
-                        'code': 0,      //数据状态，为0才会渲染
-                        'msg': "",      //状态信息
-                        'count': 1000,  //数据长度
-                        data: res.data
-                    }
-                },
-                cols:
+        var opt = {
+            elem: '#table',
+            url: '/sys/userManage/listData',
+            page: false, //开启分页,
+            parseData: function (res) {
+                console.log("res", res);
+                return {
+                    'code': 0,      //数据状态，为0才会渲染
+                    'msg': "",      //状态信息
+                    'count': 1000,  //数据长度
+                    data: res.data
+                }
+            },
+            cols:
+                [
                     [
-                        [
-                            {type: 'checkbox'},
-                            {field: 'id', title: 'ID'},
-                            {field: 'username', title: '登录帐号'},
-                            {field: 'nickname', title: '昵称'},
-                            {field: 'sex', title: '性别'},
-                            {field: 'status', title: '使用状态'},
-                            {field: 'email', title: 'email'},
-                            {field: 'mobilePhone', title: '手机号码'}
-                        ]
-                    ],
-                done: function (res, curr, count) {
-                    table = res.data;
-                },
-                response:{
-                    statusName: 'code',     //规定数据状态的字段名称，默认：code
-                    dataName: 'data'       //规定数据列表的字段名称，默认：data
-                },
-            };
-            table.render(opt);
-            // table.on('sort(table)', function (obj) {
-            //     debugger;
-            //     tableIns.reload({
-            //         initSort: obj,
-            //         where: {
-            //             sortName: obj.field,
-            //             sortOrder: obj.type,
-            //             pageName: 'pageNumber', //页码的参数名称，默认：page
-            //             limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            //         }
-            //     })
-            // });
-        });
-        //
-        // //点击编辑按钮
-        // $('#showUpdatePage').on('click', function () {
-        //     var checkStatus = table.checkStatus('table'), data = checkStatus.data;
-        //     if (data.length != 1) {
-        //         layer.alert("请选择一条记录!", {icon: 0});
-        //     } else {
-        //
-        //         $.ajax(
-        //             {
-        //                 type: 'POST',
-        //                 url: '/sys/userManage/showUpdatePage/' + data[0].id,
-        //                 contentType: 'application/json',
-        //                 dataType: 'json',
-        //                 success: function (data) {
-        //                     console.log(data);
-        //                     alert(data.message);
-        //                 },
-        //                 error: function (e) {
-        //                     console.log(e);
-        //                 }
-        //             }
-        //         );
-        //     }
+                        {type: 'checkbox'},
+                        {field: 'id', title: 'ID'},
+                        {field: 'username', title: '登录帐号'},
+                        {field: 'nickname', title: '昵称'},
+                        {field: 'sex', title: '性别'},
+                        {field: 'status', title: '使用状态'},
+                        {field: 'email', title: 'email'},
+                        {field: 'mobilePhone', title: '手机号码'}
+                    ]
+                ],
+            done: function (res, curr, count) {
+                table = res.data;
+            },
+            response: {
+                statusName: 'code',     //规定数据状态的字段名称，默认：code
+                dataName: 'data'       //规定数据列表的字段名称，默认：data
+            },
+        };
+        table.render(opt);
+        // table.on('sort(table)', function (obj) {
+        //     debugger;
+        //     tableIns.reload({
+        //         initSort: obj,
+        //         where: {
+        //             sortName: obj.field,
+        //             sortOrder: obj.type,
+        //             pageName: 'pageNumber', //页码的参数名称，默认：page
+        //             limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        //         }
+        //     })
         // });
-    })
+
+    });
+
+    $('#showUpdatePage').on('click', function () {
+
+        var table = layui.table;
+        var checkStatus = table.checkStatus('table');
+        var data = checkStatus.data;
+
+        console.log("data", data);
+
+        if (data.length != 1){
+            layui.alert("请选择一条记录");
+        } else{
+
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/sys/userManage/showUpdatePage/id=' + data[0].id,
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        alert(data.message);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                }
+            );
+
+        }
+        // if(data.length!=1){
+        //     layer.alert("请选择一条记录!", {icon: 0});
+        // }else {
+        //     setUpUrl("sys/user/getListPage@sys/user/editPage?userId=" + data[0].id);
+        // }
+    });
+
+
+    function setUpUrl(url) {
+        if (url.indexOf("@") < 0) {
+            $('nav .nav li .nav-link').removeClass('active');
+            $('nav .nav li.nav-dropdown').removeClass('open');
+            $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
+            $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
+            loadPage(url);
+        } else {
+            $('nav .nav li .nav-link').removeClass('active');
+            $('nav .nav li.nav-dropdown').removeClass('open');
+            $('nav .nav li:has(a[href="' + url.split('@')[0].split('?')[0] + '"])').addClass('open');
+            $('nav .nav a[href="' + url.split('@')[0].split('?')[0] + '"]').addClass('active');
+            loadPage(url.split('@')[1]);
+        }
+
+
+    }
+
+    function loadPage(url) {
+        $.ajax({
+            type: 'GET',
+            url: $.subPagesDirectory + 'api/' + url,
+            dataType: 'json',
+            beforeSend: function () {
+                $.breadcrumbContent.html("");
+                $.mainContent.css({opacity: 0});
+            },
+            success: function (responseText) {
+                //加载面包屑
+                for (var index in responseText) {
+                    if (responseText[index].url !== null && typeof (responseText[index].url) != "undefined") {
+                        if (responseText[index].isleaf == "Y") {
+                            $.breadcrumbContent.append("<li class='breadcrumb-item active'>"
+                                + responseText[index].name
+                                + "</li>");
+                        } else {
+                            $.breadcrumbContent.append("<li class='nav breadcrumb-item'>"
+                                + "<a href='" + responseText[index].url + "'>" + responseText[index].name + "</a>"
+                                + "</li>");
+                        }
+                    } else {
+                        if (responseText[index].isleaf == "Y") {
+                            $.breadcrumbContent.append("<li class='breadcrumb-item active'>"
+                                + responseText[index].name
+                                + "</li>");
+                        } else {
+                            $.breadcrumbContent.append("<li class='breadcrumb-item'>"
+                                + responseText[index].name
+                                + "</li>");
+                        }
+
+                    }
+                }
+                //加载页面
+                $('html, body').animate({scrollTop: 0}, 0);
+                $.mainContent.load($.subPagesDirectory + url, null, function (responseText, status, xhr) {
+                    if (status == "success") {
+                        window.location.hash = url;
+                    } else {
+                        window.location.href = $.page404;
+                    }
+                }).delay(250).animate({opacity: 1}, 0);
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                window.location.href = $.page404;
+            }
+        });
+    }
 </script>
 </html>
