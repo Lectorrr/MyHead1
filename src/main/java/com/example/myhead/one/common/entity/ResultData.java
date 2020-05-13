@@ -3,6 +3,10 @@ package com.example.myhead.one.common.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * H ui.admin 前端框架需要的后端数据格式
+ * @param <T>
+ */
 public class ResultData<T> {
 
     private Integer draw = 0;

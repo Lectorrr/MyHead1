@@ -2,8 +2,6 @@ package com.example.myhead.one.controller.sys;
 
 import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
-import com.example.myhead.one.common.entity.ResultData;
-import com.example.myhead.one.common.entity.TablePage;
 import com.example.myhead.one.entity.sys.SysUser;
 import com.example.myhead.one.service.sys.SysRoleService;
 import com.example.myhead.one.service.sys.SysUserService;
@@ -42,8 +40,10 @@ public class UserController extends BaseController<SysUser, String> {
     /**
      * showList界面的数据
      * 包含分页查询
-     *
      * @param request http请求
+     * @param page 前端界面中第几页
+     * @param limit 每一页多少数据
+     * @return
      */
     @RequestMapping(value = "/listData", method = RequestMethod.GET)
     @ResponseBody
@@ -60,6 +60,11 @@ public class UserController extends BaseController<SysUser, String> {
         return JSON.toJSONString(data);
     }
 
+    /**
+     * 保存
+     * @param sysUser
+     * @return
+     */
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> saveOrUpdate(@RequestBody SysUser sysUser){

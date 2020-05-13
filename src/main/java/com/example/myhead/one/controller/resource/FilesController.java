@@ -1,7 +1,7 @@
 package com.example.myhead.one.controller.resource;
 
+import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
-import com.example.myhead.one.common.entity.ResultData;
 import com.example.myhead.one.common.util.FileUtils;
 import com.example.myhead.one.entity.resource.Files;
 import com.example.myhead.one.entity.resource.FilesType;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,9 +44,12 @@ public class FilesController extends BaseController<Files, String> {
     @RequestMapping(value = "/listData", method = RequestMethod.GET)
     @ResponseBody
     public Object listData(HttpServletRequest request) {
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        ResultData<Files> filesResultData = filesService.findWithPage(parameterMap, Files.class);
-        return filesResultData;
+        Map<String, Object> data = new HashMap<>();
+        data.put("data", filesService.findAll());
+        return JSON.toJSONString(data);
+//        Map<String, String[]> parameterMap = request.getParameterMap();
+//        ResultData<Files> filesResultData = filesService.findWithPage(parameterMap, Files.class);
+//        return filesResultData;
     }
 
     /**
@@ -84,5 +88,15 @@ public class FilesController extends BaseController<Files, String> {
     public Object getAll() {
         List<Files> bookInfos = filesService.findAll();
         return bookInfos;
+    }
+
+    /**
+     * 文件下载
+     */
+    @RequestMapping(value = "/download")
+    @ResponseBody
+    public String download() {
+        List<Files> bookInfos = filesService.findAll();
+        return "";
     }
 }

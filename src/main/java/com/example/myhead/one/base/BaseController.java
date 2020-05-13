@@ -91,7 +91,7 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
      * 显示 update 编辑界面
      */
     @RequestMapping(value = "/showUpdatePage/{id}", method = RequestMethod.GET)
-    public String updatePage(@PathVariable String id, Model model) {
+    public String showUpdatePage(@PathVariable String id, Model model) {
         E entity = baseService.get(id);
         return doShowUpdatePage(entity, model);
 
