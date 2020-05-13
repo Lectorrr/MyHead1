@@ -77,7 +77,11 @@
                         {field: 'author', title: '作者'},
                         {field: 'publish', title: '出版社'},
                         {field: 'description', title: '简介'},
-                        {field: 'category.type', title: '类型'}
+                        {
+                            field: 'category.type', title: '类型', templet: function (data) {
+                                return data.category.type || '-';     //如果不存在则显示为“-”
+                            }
+                        }
                     ]
                 ],
             done: function (res, curr, count) {

@@ -31,25 +31,17 @@
                         <i class="layui-icon">&#xe67c;</i>上传文件
                     </button>
 
-                   <button>
+                    <button>
                         <div class="layui-btn" type="button" id="download">
-                            <i class="layui-icon download-circle">&#xe67c;</i>下载</div>
-                   </button>
+                            <i class="layui-icon download-circle">&#xe67c;</i>下载
+                        </div>
+                    </button>
 
                     <button class="layui-btn layui-btn-danger">删除</button>
                 </div>
 
                 <div></div>
-                <table class="layui-table" id="table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>文件名</th>
-                        <th>文件状态</th>
-                        <th>文件格式</th>
-                    </tr>
-                    </thead>
-                </table>
+                <table class="layui-table" id="table"></table>
             </div>
         </div>
 
@@ -62,71 +54,103 @@
 <th:block th:insert="~{common/menu :: script}"></th:block>
 <script type="text/javascript">
 
-    $('#table').DataTable({
-        bStateSave: true,//状态保存
-        pading: true,
-        aoColumnDefs: [
-            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-            {"orderable": false, "aTargets": [0]}// 不参与排序的列
-        ],
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '/resource/files/listData',
-            type: 'GET'
-        },
-        columns: [
-            {
-                "data": "id",
-                "render": function (data, type, row) {
-                    return '<input type="checkbox" id="' + row.id + '" name="' + row.id + '" value="' + row.id + '"/>'
-                }
-            },
-            {"data": "fileName"},
-            {"data": "status"},
-            {"data": "filesType.type"}
+    $(function () {
 
-        ]
-    });
+        //表格table数据
+        layui.use('table', function () {
+            var $ = layui.jquery;
+            var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+            var table = layui.table;
 
+            var opt = {
+                elem: '#table',
+                url: '/resource/files/listData',
+                page: false, //开启分页,
+                parseData: function (res) {
+                    console.log("res", res);
+                    return {
+                        'code': 0,      //数据状态，为0才会渲染
+                        'msg': "",      //状态信息
+                        'count': 1000,  //数据长度
+                        data: res.data
+                    }
+                },
+                cols:
+                    [
+                        [
+                            {type: 'checkbox'},
+                            {field: 'id', title: 'ID'},
+                            {field: 'fileName', title: '资源名称'},
+                            {field: 'status', title: '状态'},
+                            {
+                                field: 'filesType.type', title: '文件类型', templet: function (data) {
+                                    return data.filesType.type || '-';     //如果不存在则显示为“-”
+                                }
+                            }
+                        ]
+                    ],
+                done: function (res, curr, count) {
+                    table = res.data;
+                },
+                response: {
+                    statusName: 'code',     //规定数据状态的字段名称，默认：code
+                    dataName: 'data'       //规定数据列表的字段名称，默认：data
+                },
+            };
+            table.render(opt);
+            // table.on('sort(table)', function (obj) {
+            //     debugger;
+            //     tableIns.reload({
+            //         initSort: obj,
+            //         where: {
+            //             sortName: obj.field,
+            //             sortOrder: obj.type,
+            //             pageName: 'pageNumber', //页码的参数名称，默认：page
+            //             limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            //         }
+            //     })
+            // });
 
-    layui.use('upload', function(){
-        var upload = layui.upload;
-
-        //执行实例
-        var uploadInst = upload.render({
-            elem: '#test1', //绑定元素
-            url: '/resource/files/upload', //上传接口
-            accept: 'file',
-            multiple: true,
-            done: function(res){
-                //上传完毕回调
-            }
-            ,error: function(){
-                //请求异常回调
-            }
         });
-    });
 
-    // 常规ajax 调用文件下载也是不可取的，会造成文件乱码。
-    // 解决方法：ajax 首先调用一个获取文件路径的方法，根据这个方法的返回值来确定要不要继续下去，如果存在该文件，然后组装form表单，再调用下载的方法即可实现文件下载回显的效果。
-    $('#download').on('click', function () {
-        $.ajax({
-            type: 'POST',
-            url: '/resource/files/download',
-            success: function(response, status, request) {
-                var disp = request.getResponseHeader('Content-Disposition');
-                if (disp && disp.search('attachment') != -1) {  //判断是否为文件
-                    var form = $('<form method="POST" action="' + url + '">');
-                    $.each(params, function(k, v) {
-                        form.append($('<input type="hidden" name="' + k +
-                            '" value="' + v + '">'));
-                    });
-                    $('body').append(form);
-                    form.submit(); //自动提交
+        layui.use('upload', function () {
+            var upload = layui.upload;
+
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#test1', //绑定元素
+                url: '/resource/files/upload', //上传接口
+                accept: 'file',
+                multiple: true,
+                done: function (res) {
+                    //上传完毕回调
                 }
-            }
-        }, 'json')
+                , error: function () {
+                    //请求异常回调
+                }
+            });
+        });
+
+        // 常规ajax 调用文件下载也是不可取的，会造成文件乱码。
+        // 解决方法：ajax 首先调用一个获取文件路径的方法，根据这个方法的返回值来确定要不要继续下去，如果存在该文件，然后组装form表单，再调用下载的方法即可实现文件下载回显的效果。
+        $('#download').on('click', function () {
+            $.ajax({
+                type: 'POST',
+                url: '/resource/files/download',
+                success: function (response, status, request) {
+                    var disp = request.getResponseHeader('Content-Disposition');
+                    if (disp && disp.search('attachment') != -1) {  //判断是否为文件
+                        var form = $('<form method="POST" action="' + url + '">');
+                        $.each(params, function (k, v) {
+                            form.append($('<input type="hidden" name="' + k +
+                                '" value="' + v + '">'));
+                        });
+                        $('body').append(form);
+                        form.submit(); //自动提交
+                    }
+                }
+            }, 'json')
+        })
     })
 </script>
 </html>
