@@ -103,7 +103,7 @@ public class BaseController<E extends BaseEntity, T extends Serializable> {
     }
 
     @RequestMapping(value = "showDetailPage/{id}", method = RequestMethod.GET)
-    public String showDeleteForm(@PathVariable("id") String id, Model model) {
+    public String showDetailPage(@PathVariable("id") String id, Model model) {
         E entity = baseService.get(id);
         return doShowDetailPage(entity, model);
     }

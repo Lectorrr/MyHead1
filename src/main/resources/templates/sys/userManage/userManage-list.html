@@ -121,13 +121,13 @@
         console.log("data", data);
 
         if (data.length != 1){
-            layui.alert("请选择一条记录");
+            alert("请选择一条记录");
         } else{
 
             $.ajax(
                 {
-                    type: 'POST',
-                    url: '/sys/userManage/showUpdatePage/id=' + data[0].id,
+                    type: 'GET',
+                    url: '/sys/userManage/showUpdatePage/' + data[0].id,
                     contentType: 'application/json',
                     dataType: 'json',
                     success: function (data) {
@@ -149,74 +149,74 @@
     });
 
 
-    function setUpUrl(url) {
-        if (url.indexOf("@") < 0) {
-            $('nav .nav li .nav-link').removeClass('active');
-            $('nav .nav li.nav-dropdown').removeClass('open');
-            $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
-            $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
-            loadPage(url);
-        } else {
-            $('nav .nav li .nav-link').removeClass('active');
-            $('nav .nav li.nav-dropdown').removeClass('open');
-            $('nav .nav li:has(a[href="' + url.split('@')[0].split('?')[0] + '"])').addClass('open');
-            $('nav .nav a[href="' + url.split('@')[0].split('?')[0] + '"]').addClass('active');
-            loadPage(url.split('@')[1]);
-        }
+    // function setUpUrl(url) {
+    //     if (url.indexOf("@") < 0) {
+    //         $('nav .nav li .nav-link').removeClass('active');
+    //         $('nav .nav li.nav-dropdown').removeClass('open');
+    //         $('nav .nav li:has(a[href="' + url.split('?')[0] + '"])').addClass('open');
+    //         $('nav .nav a[href="' + url.split('?')[0] + '"]').addClass('active');
+    //         loadPage(url);
+    //     } else {
+    //         $('nav .nav li .nav-link').removeClass('active');
+    //         $('nav .nav li.nav-dropdown').removeClass('open');
+    //         $('nav .nav li:has(a[href="' + url.split('@')[0].split('?')[0] + '"])').addClass('open');
+    //         $('nav .nav a[href="' + url.split('@')[0].split('?')[0] + '"]').addClass('active');
+    //         loadPage(url.split('@')[1]);
+    //     }
+    //
+    //
+    // }
 
-
-    }
-
-    function loadPage(url) {
-        $.ajax({
-            type: 'GET',
-            url: $.subPagesDirectory + 'api/' + url,
-            dataType: 'json',
-            beforeSend: function () {
-                $.breadcrumbContent.html("");
-                $.mainContent.css({opacity: 0});
-            },
-            success: function (responseText) {
-                //加载面包屑
-                for (var index in responseText) {
-                    if (responseText[index].url !== null && typeof (responseText[index].url) != "undefined") {
-                        if (responseText[index].isleaf == "Y") {
-                            $.breadcrumbContent.append("<li class='breadcrumb-item active'>"
-                                + responseText[index].name
-                                + "</li>");
-                        } else {
-                            $.breadcrumbContent.append("<li class='nav breadcrumb-item'>"
-                                + "<a href='" + responseText[index].url + "'>" + responseText[index].name + "</a>"
-                                + "</li>");
-                        }
-                    } else {
-                        if (responseText[index].isleaf == "Y") {
-                            $.breadcrumbContent.append("<li class='breadcrumb-item active'>"
-                                + responseText[index].name
-                                + "</li>");
-                        } else {
-                            $.breadcrumbContent.append("<li class='breadcrumb-item'>"
-                                + responseText[index].name
-                                + "</li>");
-                        }
-
-                    }
-                }
-                //加载页面
-                $('html, body').animate({scrollTop: 0}, 0);
-                $.mainContent.load($.subPagesDirectory + url, null, function (responseText, status, xhr) {
-                    if (status == "success") {
-                        window.location.hash = url;
-                    } else {
-                        window.location.href = $.page404;
-                    }
-                }).delay(250).animate({opacity: 1}, 0);
-
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                window.location.href = $.page404;
-            }
-        });
-    }
+    // function loadPage(url) {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: $.subPagesDirectory + 'api/' + url,
+    //         dataType: 'json',
+    //         beforeSend: function () {
+    //             $.breadcrumbContent.html("");
+    //             $.mainContent.css({opacity: 0});
+    //         },
+    //         success: function (responseText) {
+    //             //加载面包屑
+    //             for (var index in responseText) {
+    //                 if (responseText[index].url !== null && typeof (responseText[index].url) != "undefined") {
+    //                     if (responseText[index].isleaf == "Y") {
+    //                         $.breadcrumbContent.append("<li class='breadcrumb-item active'>"
+    //                             + responseText[index].name
+    //                             + "</li>");
+    //                     } else {
+    //                         $.breadcrumbContent.append("<li class='nav breadcrumb-item'>"
+    //                             + "<a href='" + responseText[index].url + "'>" + responseText[index].name + "</a>"
+    //                             + "</li>");
+    //                     }
+    //                 } else {
+    //                     if (responseText[index].isleaf == "Y") {
+    //                         $.breadcrumbContent.append("<li class='breadcrumb-item active'>"
+    //                             + responseText[index].name
+    //                             + "</li>");
+    //                     } else {
+    //                         $.breadcrumbContent.append("<li class='breadcrumb-item'>"
+    //                             + responseText[index].name
+    //                             + "</li>");
+    //                     }
+    //
+    //                 }
+    //             }
+    //             //加载页面
+    //             $('html, body').animate({scrollTop: 0}, 0);
+    //             $.mainContent.load($.subPagesDirectory + url, null, function (responseText, status, xhr) {
+    //                 if (status == "success") {
+    //                     window.location.hash = url;
+    //                 } else {
+    //                     window.location.href = $.page404;
+    //                 }
+    //             }).delay(250).animate({opacity: 1}, 0);
+    //
+    //         },
+    //         error: function (XMLHttpRequest, textStatus, errorThrown) {
+    //             window.location.href = $.page404;
+    //         }
+    //     });
+    // }
 </script>
 </html>
