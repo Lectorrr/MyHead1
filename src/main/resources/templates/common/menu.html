@@ -3,99 +3,22 @@
 <head th:fragment="head">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>脱脱图书管理系统 - Layui</title>
-    <link href="/js/layui/css/layui.css" rel="stylesheet"/>
+    <!--<link href="/js/layui/css/layui.css" rel="stylesheet"/>-->
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 </head>
-<body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-    <div class="layui-header" th:fragment="header">
-        <div class="layui-logo">TuoTuo Book</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left " lay-shrink="all">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
-                </dl>
-            </li>
-        </ul>
-        <ul class="layui-nav layui-layout-right" lay-shrink="all">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
-                </a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item" id="logout"><a href="/login">退了</a></li>
-        </ul>
-    </div>
+<body>
 
-    <div class="layui-side layui-bg-black" th:fragment="nav">
-        <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test" lay-shrink="all">
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">所有商品</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">用户管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/sys/userManage/showList">用户列表</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">图书馆</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/library/bookInfo/showList">图书信息</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">笔记簿</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">新建笔记</a></dd>
-                        <dd><a href="javascript:;">新建笔记</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">资源区</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="/resource/files/showList">查看列表</a></dd>
-                    </dl>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="layui-footer" th:fragment="footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
-    </div>
-</div>
+</body>
 <th:block th:fragment="script">
-    <script type="text/javascript" src="/js/layui/layui.js"></script>
     <script type="text/javascript" src="/js/jquery-3.4.1/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="/lib/datatable/1.10.0/jquery.dataTables.min.js"></script>
 
-    <script type="text/javascript" src="/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="/lib/jquery.validation/1.14.0/messages_zh.js"></script>
-    <script type="text/javascript" src="/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+    <script type="text/javascript" src="/js/jquery.validation/1.14.0/jquery.validate.js"></script>
+    <script type="text/javascript" src="/js/jquery.validation/1.14.0/messages_zh.js"></script>
+    <script type="text/javascript" src="/js/jquery.validation/1.14.0/validate-methods.js"></script>
+
+    <script type="text/javascript" src="/js/Utils/myJsUtils.js"></script>
     <script>
         //JavaScript代码区域
         layui.use('element', function () {
@@ -104,5 +27,4 @@
         });
     </script>
 </th:block>
-</body>
 </html>

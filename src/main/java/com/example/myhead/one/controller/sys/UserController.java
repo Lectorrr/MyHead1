@@ -2,12 +2,14 @@ package com.example.myhead.one.controller.sys;
 
 import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
+import com.example.myhead.one.entity.sys.SysRole;
 import com.example.myhead.one.entity.sys.SysUser;
 import com.example.myhead.one.service.sys.SysRoleService;
 import com.example.myhead.one.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,6 +64,8 @@ public class UserController extends BaseController<SysUser, String> {
 
     /**
      * 保存
+     * 若 sysUser 实体的 id 不存在，新建
+     * 否则 直接保存实体 更新数据
      * @param sysUser
      * @return
      */
@@ -70,16 +74,30 @@ public class UserController extends BaseController<SysUser, String> {
     public Map<String, Object> saveOrUpdate(@RequestBody SysUser sysUser){
 
         Map<String, Object> data = new HashMap<>();
-        if (sysUserService.isExist(sysUser.getUsername())){
-            data.put("message", "该用户名已被占用");
-        } else if (sysUser.getUsername() == null){
-            data.put("message", "请输入用户名");
-        }else {
+
+        if (StringUtils.isEmpty(sysUser.getId())){
+            if (sysUserService.isExist(sysUser.getUsername())){
+                data.put("message", "该用户名已被占用");
+            } else {
+                SysRole sysRole = sysRoleService.get(sysUser.getRole().getId());
+                sysUser.setRole(sysRole);
+                sysUserService.saveOrUpdate(sysUser);
+                data.put("message", "创建成功");
+            }
+        } else {
+            SysRole sysRole = sysRoleService.get(sysUser.getRole().getId());
+            sysUser.setRole(sysRole);
             sysUserService.saveOrUpdate(sysUser);
-            data.put("message", "创建成功");
+            data.put("message", "更新成功");
         }
 
         return data;
     }
 
+    @Override
+    public String doShowUpdatePage(SysUser entity, Model model) {
+
+        model.addAttribute("role", sysRoleService.findAll());
+        return super.doShowUpdatePage(entity, model);
+    }
 }

@@ -201,9 +201,8 @@
         function saveOrUpdate() {
 
             console.log("role:", $('#role').find('option:selected').val());
-            var roleData = {};
-            roleData.id = $('#role').find('option:selected').val();
-
+            var role = {};
+            role.id = $('#role').find('option:selected').val();
 
             var formData = {};
             formData.username = $('#username').val();
@@ -212,7 +211,7 @@
             formData.sex = $('#sex').find('option:selected').val();
             formData.email = $('#email').val();
             formData.mobilePhone = $('#mobilePhone').val();
-            formData.role = roleData;
+            formData.role = role;
 
             console.log("data:", formData);
 

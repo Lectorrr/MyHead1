@@ -3,38 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>TuoTuo Book 登录入口</title>
-    <link rel="stylesheet" href="/js/layui/css/layui.css"/>
-    <link rel="stylesheet" href="/js/layui/css/layuiadminstyle.css">
-    <link rel="stylesheet" href="/css/login/loginStyle.css">
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 </head>
 <body style="background-image: url('/img/login_blackground.png');background-size: cover;display: flex;align-items: center;">
-
-<div class="login-div login-container" id="login-modal">
-    <h1 class="login_title">登录入口</h1>
-    <form id="login-form" action="#">
-
-        <div class="login-form-item">
-            <label class="layui-form-label">用户名</label>
-            <div class="layui-input-inline">
-                <input id="username" name="username" placeholder="用户名">
+<div class="modal-dialog" style="margin-top: 13%; width: 23%;">
+    <div class="modal-content" id="login-modal">
+        <form id="login-form" action="#">
+            <div class="modal-header">
+                <h4 class="modal-title text-center" id="myModalLabel">登录入口</h4>
             </div>
-        </div>
-
-        <div class="login-form-item">
-            <label class="layui-form-label">密码</label>
-            <div class="layui-input-inline">
-                <input id="password" name="password" type="password" placeholder="密码">
+            <div class="modal-body" id="model-body" style="width: 90%; margin: auto">
+                <div class="form-group">
+                    <input id="username" type="text" class="form-control" placeholder="用户名" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input id="password" type="password" class="form-control" placeholder="密码" autocomplete="off">
+                </div>
             </div>
-        </div>
+            <div class="modal-footer" style="width: 90%; margin: auto">
+                <div class="form-group">
+                    <button data-name="save" type="button" class="btn btn-primary form-control" style="background-color: #2b2b2b">登录</button>
+                </div>
+                <div class="form-group">
+                    <button data-name="register" type="button" class="btn btn-default form-control">注册</button>
+                </div>
 
-        <button data-name="save" class="btn-login" style="width: 100%;background: #505458;border: none">登录</button>
-
-        <div class="login-form-item">
-            <p class="text-center mt-2">
-                <a href="/registered"> 你还没有账号吗?</a>
-            </p>
-        </div>
-    </form>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
 </div>
 
 </body>
@@ -44,7 +41,9 @@
 
         //按钮事件注册
         $('#login-modal').on('click', 'button[data-name=save]', function () {
+            debugger;
             if (validateForm.form()) {
+
                 $('#login-form').find('button').attr('disabled');
                 console.log("123");
                 login();
@@ -68,21 +67,16 @@
                 password: {
                     required: "请输入密码"
                 }
-            },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element.parent('div')).addClass("layui-col-xs12 layui-col-sm-offset3");
-                // error.appendTo(element.next("div"));
-            },
+            }
         });
 
-        function login() {
 
+        function login() {
             var formdata = {};
             formdata.username = $('#username').val();
             formdata.password = $('#password').val();
 
             console.log(formdata);
-
             $.ajax({
                 url: '/login',
                 type: 'post',
@@ -91,26 +85,14 @@
                 success: function (data) {
                     if (data.code == 200) {
                         console.log(data.message);
-                        window.location.href='/index';
-                        // layer.alert(data.msg, function () {
-                            // layer.closeAll();
-                            // load(obj);
-                        // });
+                        window.location.href = '/index';
+                        window.location.reload();
                     } else {
                         alert(data.message);
                     }
                 }
             });
-
-
         }
-
-
     })
-</script>
-
-<script>
-
-
 </script>
 </html>
