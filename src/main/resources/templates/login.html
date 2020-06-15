@@ -35,17 +35,18 @@
 </div>
 
 </body>
-<th:block th:insert="~{common/menu :: script}"></th:block>
+<script type="text/javascript" src="/js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="/js/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/js/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="/js/Utils/myJsUtils.js"></script>
 <script>
     $(function () {
 
         //按钮事件注册
         $('#login-modal').on('click', 'button[data-name=save]', function () {
-            debugger;
             if (validateForm.form()) {
-
                 $('#login-form').find('button').attr('disabled');
-                console.log("123");
                 login();
             }
         });
@@ -72,24 +73,29 @@
 
 
         function login() {
-            var formdata = {};
+            let formdata = {};
             formdata.username = $('#username').val();
             formdata.password = $('#password').val();
 
-            console.log(formdata);
+            // console.log(formdata);
             $.ajax({
                 url: '/login',
                 type: 'post',
                 dataType: 'json',
                 data: formdata,
-                success: function (data) {
-                    if (data.code == 200) {
-                        console.log(data.message);
+                success: function (res) {
+                    //这里无法进行登录验证后的跳转。
+                    console.log("1212:", res);
+                    if (res.status === 200) {
+                        // console.log(data.message);
                         window.location.href = '/index';
                         window.location.reload();
                     } else {
-                        alert(data.message);
+                        alert(res.message);
                     }
+                },
+                error: function (res) {
+                    console.log("111", res);
                 }
             });
         }
