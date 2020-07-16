@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,14 @@ import java.util.Optional;
  * 一般的 Service 类会集成这个类。
  */
 @Transactional
-public class BaseService<E extends BaseEntity> {
+public abstract class BaseService<E extends BaseEntity<String>, D extends BaseDTO<String>, ID extends Serializable> {
 
     @Autowired
     private BaseDao<E, String> baseDao;
+
+    public abstract D toDTO(E entity);
+
+    public abstract E toEntity(D dto);
 
     /**
      * 增加/改 方法
@@ -66,7 +71,7 @@ public class BaseService<E extends BaseEntity> {
         return (E) result;
     }
 
-    public List<E> findAll(){
+    public List<E> findAll() {
         List<E> entity = baseDao.findAll();
         return entity;
     }
