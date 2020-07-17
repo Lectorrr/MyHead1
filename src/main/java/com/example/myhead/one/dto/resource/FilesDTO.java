@@ -1,41 +1,32 @@
-package com.example.myhead.one.entity.resource;
+package com.example.myhead.one.dto.resource;
 
-import com.example.myhead.one.base.BaseEntity;
+import com.example.myhead.one.base.BaseDTO;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "resource_files")
-public class Files extends BaseEntity<String> {
+public class FilesDTO extends BaseDTO<String> {
 
     /**
      * 文件路径
      */
-    @Column(name = "file_path")
     private String fileRoad;
 
     /**
      * 文件名
      */
-    @Column(name = "file_name")
     private String fileName;
 
     /**
      * 错误信息路径
      */
-    @Column(name = "error_path")
     private String errorPath;
 
     /**
      * 状态
      */
-    @Column(name = "status")
     private String status;
 
     /**
      * 文件类型
      */
-    @Column(name = "file_type")
     private String fileType;
 
 //    /**

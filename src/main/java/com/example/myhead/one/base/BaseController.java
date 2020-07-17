@@ -13,10 +13,10 @@ import java.io.Serializable;
 /**
  * @author lector
  */
-public class BaseController<E extends BaseEntity, T extends Serializable> {
+public class BaseController<E extends BaseEntity<String>, D extends BaseDTO<String>, ID extends Serializable> {
 
     @Autowired
-    private BaseService<E> baseService;
+    private BaseService<E, D, ID> baseService;
 
     protected String PathPrefix;
     private String viewPrefix;

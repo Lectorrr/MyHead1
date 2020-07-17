@@ -2,6 +2,7 @@ package com.example.myhead.one.controller.library;
 
 import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
+import com.example.myhead.one.dto.library.BookInfoDTO;
 import com.example.myhead.one.entity.library.BookInfo;
 import com.example.myhead.one.entity.library.Category;
 import com.example.myhead.one.service.library.BookInfoService;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/library/bookInfo")
-public class BookInfoController extends BaseController<BookInfo, String> {
+public class BookInfoController extends BaseController<BookInfo, BookInfoDTO, String> {
 
     @Autowired
     private BookInfoService bookInfoService;

@@ -1,6 +1,7 @@
 package com.example.myhead.one.controller.sys;
 
 import com.example.myhead.one.base.BaseController;
+import com.example.myhead.one.dto.sys.SysUserDTO;
 import com.example.myhead.one.entity.sys.SysRole;
 import com.example.myhead.one.entity.sys.SysUser;
 import com.example.myhead.one.service.sys.SysRoleService;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/sys/userManage")
-public class SysUserController extends BaseController<SysUser, String> {
+public class SysUserController extends BaseController<SysUser, SysUserDTO, String> {
 
     @Autowired
     private SysUserService sysUserService;

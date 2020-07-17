@@ -3,10 +3,9 @@ package com.example.myhead.one.controller.resource;
 import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
 import com.example.myhead.one.common.util.FileUtils;
+import com.example.myhead.one.dto.resource.FilesDTO;
 import com.example.myhead.one.entity.resource.Files;
-import com.example.myhead.one.entity.resource.FilesType;
 import com.example.myhead.one.service.resource.FilesService;
-import com.example.myhead.one.service.resource.FilesTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
@@ -23,12 +22,10 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/resource/files")
-public class FilesController extends BaseController<Files, String> {
+public class FilesController extends BaseController<Files, FilesDTO, String> {
 
     @Autowired
     private FilesService filesService;
-    @Autowired
-    private FilesTypeService filesTypeService;
 
     @Override
     public String getPathPrefix() {
@@ -69,10 +66,10 @@ public class FilesController extends BaseController<Files, String> {
                 files.setFileName(fileName + file.getOriginalFilename());
                 files.setFileRoad(filePath);
 
-                FilesType filesType = new FilesType();
-                filesType.setType(file.getContentType());
-                filesTypeService.saveOrUpdate(filesType);
-                files.setFilesType(filesType);
+//                FilesType filesType = new FilesType();
+//                filesType.setType(file.getContentType());
+//                filesTypeService.saveOrUpdate(filesType);
+//                files.setFilesType(filesType);
                 filesService.saveOrUpdate(files);
             }
         }

@@ -17,10 +17,16 @@ public class BookInfoService extends BaseService<BookInfo, BookInfoDTO, String> 
     @Autowired
     private BookInfoDao bookInfoDao;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @Override
     public BookInfoDTO toDTO(BookInfo entity) {
         BookInfoDTO result = new BookInfoDTO();
         if (entity != null) {
+            if (entity.getCategory() != null) {
+                result.setCategory(categoryService.toDTO(entity.getCategory()));
+            }
             BeanUtils.copyProperties(entity, result);
         }
         return result;
@@ -30,6 +36,9 @@ public class BookInfoService extends BaseService<BookInfo, BookInfoDTO, String> 
     public BookInfo toEntity(BookInfoDTO dto) {
         BookInfo result = new BookInfo();
         if (dto != null) {
+            if (dto.getCategory() != null) {
+                result.setCategory(categoryService.toEntity(dto.getCategory()));
+            }
             BeanUtils.copyProperties(dto, result);
         }
         return result;
