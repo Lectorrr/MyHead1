@@ -1,42 +1,29 @@
-package com.example.myhead.one.entity.sys;
+package com.example.myhead.one.dto.sys;
 
-import com.example.myhead.one.base.BaseEntity;
+import com.example.myhead.one.base.BaseDTO;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "sys_Permission")
-public class SysPermission extends BaseEntity<String> {
+public class SysPermissionDTO extends BaseDTO<String> {
 
     /**
      * 权限
      */
-    @Column(name = "permission")
     private String permission;
 
     /**
      * 资源路径
      */
-    @Column(name = "resource_url")
     private String resourceUrl;
 
     /**
      * 资源类型，[menu | button]
      */
-    @Column(name = "resource_type", columnDefinition = "enum('menu', 'button')")
     private String resourceType;
 
     /**
      * 权限和角色的关系
      * 多对一的关系
      */
-    @ManyToOne
-    @JoinTable(
-            name = "sys_role_permission",
-            joinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "uuid")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "uuid")}
-    )
-    private SysRole role;
+    private SysRoleDTO role;
 
     public String getPermission() {
         return permission;
@@ -62,11 +49,11 @@ public class SysPermission extends BaseEntity<String> {
         this.resourceType = resourceType;
     }
 
-    public SysRole getRole() {
+    public SysRoleDTO getRole() {
         return role;
     }
 
-    public void setRole(SysRole role) {
+    public void setRole(SysRoleDTO role) {
         this.role = role;
     }
 }

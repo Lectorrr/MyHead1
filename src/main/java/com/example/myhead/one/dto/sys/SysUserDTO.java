@@ -1,88 +1,60 @@
-package com.example.myhead.one.entity.sys;
+package com.example.myhead.one.dto.sys;
 
-import com.example.myhead.one.base.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.myhead.one.base.BaseDTO;
+import com.example.myhead.one.entity.sys.SysRole;
 
-import javax.persistence.*;
-import java.util.Date;
-
-@Entity
-@Table(name = "sys_user")
-@JsonIgnoreProperties({"handler", "hibernateLazyInitializer", "password"})
-public class SysUser extends BaseEntity<String> {
+public class SysUserDTO extends BaseDTO<String> {
 
     /**
      * 帐号
      */
-    @Column(name = "account")
     private String account;
 
     /**
      * 密码
      */
-    @Column(name = "password")
     private String password;
 
     /**
      * 加密盐
      */
-    @Column(name = "salt")
     private String salt;
 
     /**
      * 昵称
      */
-    @Column(name = "nickname")
     private String nickname;
 
     /**
      * 手机号码
      */
-    @Column(name = "tel_Phone")
     private String telPhone;
 
     /**
      * 电子邮箱
      */
-    @Column(name = "email")
     private String email;
 
     /**
      * 帐号状态：0-正常；1-锁定
      */
-    @Column(name = "status")
     private Integer status = 0;
 
     /**
      * 性别
      */
-    @Column(name = "sex")
     private String sex;
 
     /**
      * 是否被删除: false-未删除， true-已删除
      */
-    @Column(name = "is_deleted")
     private Boolean is_deleted = false;
-
-    /**
-     * 上次登录时间
-     */
-//    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_login_date_time")
-    private Date lastLoginDateTime;
 
     /**
      * 用户和角色关联
      * 多对多的关系
      */
-    @ManyToOne
-    @JoinTable(
-            name = "sys_user_role",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "uuid")},             //sys_user表中的id在这个表中喂USER_ID
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "uuid")}       //sys_role表中的id在sys_user_role表中喂ROLE_ID
-    )
-    private SysRole role;
+    private SysRoleDTO role;
 
     public String getAccount() {
         return account;
@@ -156,11 +128,11 @@ public class SysUser extends BaseEntity<String> {
         this.is_deleted = is_deleted;
     }
 
-    public SysRole getRole() {
+    public SysRoleDTO getRole() {
         return role;
     }
 
-    public void setRole(SysRole role) {
+    public void setRole(SysRoleDTO role) {
         this.role = role;
     }
 
@@ -174,7 +146,7 @@ public class SysUser extends BaseEntity<String> {
 
     @Override
     public String toString() {
-        return "SysUser{" +
+        return "SysUserDTO{" +
                 "account='" + account + '\'' +
                 ", password='" + password + '\'' +
                 ", salt='" + salt + '\'' +

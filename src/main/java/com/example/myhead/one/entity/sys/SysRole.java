@@ -21,6 +21,11 @@ public class SysRole extends BaseEntity<String> {
     @Column(name = "del_flag")
     private Integer delFlag = 0;
 
+    /**
+     * 是否被删除: false-未删除， true-已删除
+     */
+    @Column(name = "is_deleted")
+    private Boolean is_deleted = false;
 
     /**
      * 角色和权限关联
@@ -29,8 +34,8 @@ public class SysRole extends BaseEntity<String> {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "sys_role_permission",
-            joinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "UUID")},
-            inverseJoinColumns = {@JoinColumn(name = "PERMISSION_ID", referencedColumnName = "UUID")}
+            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "uuid")},
+            inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "uuid")}
     )
     private List<SysPermission> permissions;
 
@@ -41,9 +46,9 @@ public class SysRole extends BaseEntity<String> {
     @OneToMany
     @JoinTable(
             name = "sys_user_role",
-            joinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "UUID")},
-            inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "UUID")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"USER_ID", "ROLE_ID"})}
+            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "uuid")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "uuid")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role_id"})}
     )
     private List<SysUser> users;
 
@@ -61,6 +66,14 @@ public class SysRole extends BaseEntity<String> {
 
     public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public Boolean getIs_deleted() {
+        return is_deleted;
+    }
+
+    public void setIs_deleted(Boolean is_deleted) {
+        this.is_deleted = is_deleted;
     }
 
     public List<SysPermission> getPermissions() {

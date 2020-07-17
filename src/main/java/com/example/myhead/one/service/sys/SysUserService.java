@@ -2,7 +2,9 @@ package com.example.myhead.one.service.sys;
 
 import com.example.myhead.one.base.BaseService;
 import com.example.myhead.one.dao.sys.SysUserDao;
+import com.example.myhead.one.dto.sys.SysUserDTO;
 import com.example.myhead.one.entity.sys.SysUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,37 @@ import javax.persistence.criteria.*;
 import java.util.List;
 
 @Service
-public class SysUserService extends BaseService<SysUser> {
+public class SysUserService extends BaseService<SysUser, SysUserDTO, String> {
 
     @Autowired
     private SysUserDao sysUserDao;
+
+    @Autowired
+    private SysRoleService sysRoleService;
+
+    @Override
+    public SysUserDTO toDTO(SysUser entity) {
+        SysUserDTO result = new SysUserDTO();
+        if (entity != null) {
+            if (entity.getRole() != null){
+                result.setRole(sysRoleService.toDTO(entity.getRole()));
+            }
+            BeanUtils.copyProperties(entity, result);
+        }
+        return result;
+    }
+
+    @Override
+    public SysUser toEntity(SysUserDTO dto) {
+        SysUser result = new SysUser();
+        if (dto != null) {
+            if (dto.getRole() != null){
+                result.setRole(sysRoleService.toEntity(dto.getRole()));
+            }
+            BeanUtils.copyProperties(dto, result);
+        }
+        return result;
+    }
 
     /**
      * 根据用户名查用户信息
@@ -40,7 +69,7 @@ public class SysUserService extends BaseService<SysUser> {
      * 根据用户名判断用户是否存在
      *
      * @param username 用户名
-     * return -true 存在该用户 -false 不存在该用户
+     *                 return -true 存在该用户 -false 不存在该用户
      */
     public boolean isExist(String username) {
         SysUser user = sysUserDao.getSysUserByUsername(username);
