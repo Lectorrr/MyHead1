@@ -1,6 +1,5 @@
 package com.example.myhead.one.controller.sys;
 
-import com.alibaba.fastjson.JSON;
 import com.example.myhead.one.base.BaseController;
 import com.example.myhead.one.entity.sys.SysRole;
 import com.example.myhead.one.entity.sys.SysUser;
@@ -21,7 +20,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/sys/userManage")
-public class UserController extends BaseController<SysUser, String> {
+public class SysUserController extends BaseController<SysUser, String> {
 
     @Autowired
     private SysUserService sysUserService;
@@ -49,7 +48,7 @@ public class UserController extends BaseController<SysUser, String> {
      */
     @RequestMapping(value = "/listData", method = RequestMethod.GET)
     @ResponseBody
-    public String listData(HttpServletRequest request, int page, int limit) {
+    public Object listData(HttpServletRequest request, int page, int limit) {
 
 //        Map<String, String[]> parameterMap = request.getParameterMap();
 //        ResultData<SysUser> resultData = sysUserService.findWithPage(parameterMap, SysUser.class);
@@ -59,7 +58,7 @@ public class UserController extends BaseController<SysUser, String> {
 //        table.setRows(sysUserService.findAll());
         Map<String, Object> data = new HashMap<>();
         data.put("data", sysUserService.findAll());
-        return JSON.toJSONString(data);
+        return data;
     }
 
     /**
@@ -76,7 +75,7 @@ public class UserController extends BaseController<SysUser, String> {
         Map<String, Object> data = new HashMap<>();
 
         if (StringUtils.isEmpty(sysUser.getId())){
-            if (sysUserService.isExist(sysUser.getUsername())){
+            if (sysUserService.isExist(sysUser.getAccount())){
                 data.put("message", "该用户名已被占用");
             } else {
                 SysRole sysRole = sysRoleService.get(sysUser.getRole().getId());
